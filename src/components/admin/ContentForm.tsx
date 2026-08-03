@@ -69,14 +69,14 @@ function FieldGroup({
           name={name}
           defaultValue={defaultValue}
           rows={4}
-          className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm focus:border-pink focus:outline-none"
+          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
         />
       ) : (
         <input
           id={name}
           name={name}
           defaultValue={defaultValue}
-          className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm focus:border-pink focus:outline-none"
+          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
         />
       )}
     </div>

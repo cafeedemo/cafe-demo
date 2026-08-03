@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --base: #0e0b16;
-  --base-soft: #171225;
-  --ink: #f6f3fb;
-  --ink-dim: #b9b2cc;
-  --pink: #ff4d8d;
-  --orange: #ff8a3d;
-  --purple: #8b5cf6;
-  --lime: #c6ff3d;
-  --card-border: rgba(255, 255, 255, 0.1);
+  --base: #fbf8f2;
+  --base-soft: #f1e9db;
+  --ink: #2a211a;
+  --ink-dim: #7a6c5d;
+  --pink: #b0632b;
+  --orange: #d9a441;
+  --purple: #4b6455;
+  --lime: #8c9b4f;
+  --card-border: rgba(42, 33, 26, 0.1);
 }
 
 @theme inline {
@@ -39,7 +39,7 @@ h4,
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, var(--pink), var(--orange), var(--purple));
+  background: linear-gradient(90deg, var(--pink), var(--orange));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -47,33 +47,42 @@ h4,
 
 .gradient-btn {
   background: linear-gradient(90deg, var(--pink), var(--orange));
-  color: #14100a;
+  color: #fff8ee;
   font-weight: 700;
-  transition: filter 0.2s ease, transform 0.2s ease;
+  transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 20px -8px rgba(176, 99, 43, 0.5);
 }
 
 .gradient-btn:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.06);
   transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(176, 99, 43, 0.6);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.72);
   border: 1px solid var(--card-border);
   backdrop-filter: blur(16px);
+  box-shadow: 0 10px 40px -14px rgba(42, 33, 26, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glow-pink {
-  box-shadow: 0 0 40px -10px rgba(255, 77, 141, 0.5);
+  box-shadow: 0 20px 50px -18px rgba(176, 99, 43, 0.35);
 }
 
 .glow-purple {
-  box-shadow: 0 0 40px -10px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 20px 50px -18px rgba(75, 100, 85, 0.3);
+}
+
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 ::selection {
   background: var(--pink);
-  color: #14100a;
+  color: #fff8ee;
 }
 
 ::-webkit-scrollbar {
@@ -83,6 +92,6 @@ h4,
   background: var(--base);
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--pink), var(--purple));
+  background: linear-gradient(var(--pink), var(--orange));
   border-radius: 999px;
 }

@@ -8,6 +8,7 @@ import { requireStaff } from "@/lib/guard";
 const GallerySchema = z.object({
   imageUrl: z.url("Enter a valid image URL"),
   caption: z.string().optional(),
+  placement: z.enum(["GALLERY", "HERO", "ABOUT"]).default("GALLERY"),
 });
 
 function revalidateGalleryPaths() {
@@ -23,9 +24,16 @@ export async function createGalleryImage(formData: FormData) {
   const parsed = GallerySchema.parse({
     imageUrl: formData.get("imageUrl"),
     caption: formData.get("caption") || undefined,
+    placement: formData.get("placement") || undefined,
   });
 
   await prisma.galleryImage.create({ data: parsed });
+  revalidateGalleryPaths();
+}
+
+export async function updateGalleryPlacement(id: string, placement: "GALLERY" | "HERO" | "ABOUT") {
+  await requireStaff();
+  await prisma.galleryImage.update({ where: { id }, data: { placement } });
   revalidateGalleryPaths();
 }
 

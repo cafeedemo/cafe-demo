@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Coffee } from "lucide-react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
+import { DEMO_IMAGES } from "@/lib/demo-images";
 
 type Item = {
   id: string;
@@ -10,6 +12,7 @@ type Item = {
   description: string | null;
   price: string;
   category: string;
+  imageUrl: string | null;
   isFeatured: boolean;
 };
 
@@ -54,32 +57,50 @@ export function MenuGrid({ items }: { items: Item[] }) {
       {filtered.length === 0 ? (
         <p className="mt-16 text-center text-ink-dim">No items in this category yet.</p>
       ) : (
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((item) => (
-            <div
-              key={item.id}
-              className="glass-card group relative rounded-3xl p-6 transition-transform hover:-translate-y-1"
-            >
-              {item.isFeatured && (
-                <span className="gradient-btn absolute -top-2 -right-2 rounded-full px-3 py-1 text-[10px] font-bold uppercase">
-                  Popular
-                </span>
-              )}
-              <div className="mb-4 flex h-36 items-center justify-center rounded-2xl bg-gradient-to-br from-pink/20 via-orange/20 to-purple/20">
-                <Coffee className="text-ink-dim/50" size={40} />
-              </div>
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="font-heading text-lg font-bold">{item.name}</h3>
-                <span className="whitespace-nowrap font-heading font-bold text-lime">
-                  ${item.price}
-                </span>
-              </div>
-              {item.description && (
-                <p className="mt-2 text-sm text-ink-dim">{item.description}</p>
-              )}
-            </div>
-          ))}
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.3 }}
+            className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {filtered.map((item, i) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.05 }}
+                whileHover={{ y: -6 }}
+                className="glass-card group relative rounded-3xl p-6"
+              >
+                {item.isFeatured && (
+                  <span className="gradient-btn absolute -top-2 -right-2 rounded-full px-3 py-1 text-[10px] font-bold uppercase">
+                    Popular
+                  </span>
+                )}
+                <div className="relative mb-4 h-36 overflow-hidden rounded-2xl">
+                  <Image
+                    src={item.imageUrl || DEMO_IMAGES.menu[i % DEMO_IMAGES.menu.length]}
+                    alt={item.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-heading text-lg font-bold">{item.name}</h3>
+                  <span className="whitespace-nowrap font-heading font-bold text-pink">
+                    ${item.price}
+                  </span>
+                </div>
+                {item.description && (
+                  <p className="mt-2 text-sm text-ink-dim">{item.description}</p>
+                )}
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       )}
     </div>
   );

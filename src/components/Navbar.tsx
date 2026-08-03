@@ -25,7 +25,7 @@ export function Navbar() {
         : null;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-base/70 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-base/70 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2 font-heading text-lg font-bold">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink to-purple">
@@ -80,7 +80,7 @@ export function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-white/10 px-6 py-4 md:hidden">
+        <div className="border-t border-black/10 px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             {links.map((link) => (
               <Link

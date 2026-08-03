@@ -65,14 +65,14 @@ export function UsersManager({
             name="name"
             placeholder="Full name"
             required
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
           />
           <input
             name="email"
             type="email"
             placeholder="Email"
             required
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
           />
           <input
             name="password"
@@ -80,7 +80,7 @@ export function UsersManager({
             placeholder="Temporary password"
             required
             minLength={6}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
           />
           <button type="submit" className="gradient-btn rounded-full px-5 py-2.5 text-sm sm:col-span-3">
             Create admin account
@@ -94,7 +94,7 @@ export function UsersManager({
 
       <div className="glass-card overflow-hidden rounded-2xl">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-white/10 text-ink-dim">
+          <thead className="border-b border-black/10 text-ink-dim">
             <tr>
               <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Email</th>
@@ -102,7 +102,7 @@ export function UsersManager({
               <th className="px-6 py-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/10">
+          <tbody className="divide-y divide-black/10">
             {users.map((u) => (
               <tr key={u.id}>
                 <td className="px-6 py-3 font-medium">{u.name ?? "—"}</td>

@@ -43,7 +43,7 @@ export function LoginForm() {
           name="email"
           type="email"
           required
-          className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-ink focus:border-pink focus:outline-none"
+          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm text-ink focus:border-pink focus:outline-none"
         />
       </div>
       <div className="flex flex-col gap-1.5">
@@ -55,7 +55,7 @@ export function LoginForm() {
           name="password"
           type="password"
           required
-          className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-ink focus:border-pink focus:outline-none"
+          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm text-ink focus:border-pink focus:outline-none"
         />
       </div>
 

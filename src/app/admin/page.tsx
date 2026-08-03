@@ -41,7 +41,7 @@ export default async function AdminOverview() {
         {upcoming.length === 0 ? (
           <p className="text-sm text-ink-dim">No upcoming reservations yet.</p>
         ) : (
-          <div className="flex flex-col divide-y divide-white/10">
+          <div className="flex flex-col divide-y divide-black/10">
             {upcoming.map((r) => (
               <div key={r.id} className="flex items-center justify-between py-3 text-sm">
                 <div>
@@ -50,7 +50,7 @@ export default async function AdminOverview() {
                     {r.date.toLocaleDateString()} · {r.timeSlot} · Party of {r.partySize}
                   </p>
                 </div>
-                <span className="rounded-full bg-white/5 px-3 py-1 text-xs text-ink-dim">
+                <span className="rounded-full bg-black/[0.03] px-3 py-1 text-xs text-ink-dim">
                   {r.status}
                 </span>
               </div>

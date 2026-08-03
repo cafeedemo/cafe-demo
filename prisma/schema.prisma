@@ -48,12 +48,19 @@ model MenuItem {
   updatedAt   DateTime     @updatedAt
 }
 
+enum GalleryPlacement {
+  GALLERY
+  HERO
+  ABOUT
+}
+
 model GalleryImage {
-  id        String   @id @default(cuid())
+  id        String           @id @default(cuid())
   imageUrl  String
   caption   String?
-  sortOrder Int      @default(0)
-  createdAt DateTime @default(now())
+  placement GalleryPlacement @default(GALLERY)
+  sortOrder Int              @default(0)
+  createdAt DateTime         @default(now())
 }
 
 enum ReservationStatus {
@@ -65,7 +72,7 @@ enum ReservationStatus {
 model Reservation {
   id         String            @id @default(cuid())
   name       String
-  email      String
+  email      String?
   phone      String
   partySize  Int
   date       DateTime

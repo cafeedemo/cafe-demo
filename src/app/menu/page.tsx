@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Blobs } from "@/components/ui/Blobs";
+import { Reveal } from "@/components/ui/Reveal";
 import { prisma } from "@/lib/prisma";
 import { MenuGrid } from "./MenuGrid";
 
@@ -23,7 +24,7 @@ export default async function MenuPage() {
       <main className="relative flex-1 px-6 py-20">
         <Blobs />
         <div className="mx-auto max-w-6xl">
-          <div className="text-center">
+          <Reveal className="text-center">
             <span className="text-xs font-semibold uppercase tracking-widest text-pink">
               What we&apos;re serving
             </span>
@@ -33,7 +34,7 @@ export default async function MenuPage() {
             <p className="mx-auto mt-3 max-w-xl text-ink-dim">
               Handcrafted drinks, fresh bites, and specials made for good moods.
             </p>
-          </div>
+          </Reveal>
 
           <MenuGrid items={serialized} />
         </div>

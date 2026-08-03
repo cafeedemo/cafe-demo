@@ -6,12 +6,10 @@ import { auth } from "@/auth";
 
 const ReservationSchema = z.object({
   name: z.string().min(2, "Name is too short"),
-  email: z.email("Enter a valid email"),
   phone: z.string().min(7, "Enter a valid phone number"),
   partySize: z.coerce.number().int().min(1).max(20),
   date: z.string().min(1, "Pick a date"),
   timeSlot: z.string().min(1, "Pick a time"),
-  notes: z.string().optional(),
 });
 
 export type ReservationState = {
@@ -25,12 +23,10 @@ export async function createReservation(
 ): Promise<ReservationState> {
   const parsed = ReservationSchema.safeParse({
     name: formData.get("name"),
-    email: formData.get("email"),
     phone: formData.get("phone"),
     partySize: formData.get("partySize"),
     date: formData.get("date"),
     timeSlot: formData.get("timeSlot"),
-    notes: formData.get("notes") || undefined,
   });
 
   if (!parsed.success) {
@@ -42,12 +38,11 @@ export async function createReservation(
   await prisma.reservation.create({
     data: {
       name: parsed.data.name,
-      email: parsed.data.email,
       phone: parsed.data.phone,
       partySize: parsed.data.partySize,
       date: new Date(parsed.data.date),
       timeSlot: parsed.data.timeSlot,
-      notes: parsed.data.notes,
+      email: session?.user?.email,
       userId: session?.user?.id,
     },
   });

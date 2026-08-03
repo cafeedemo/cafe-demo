@@ -3,7 +3,7 @@ import { AtSign, MapPin, Phone } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-white/10 bg-base-soft/50">
+    <footer className="mt-auto border-t border-black/10 bg-base-soft/50">
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
@@ -34,7 +34,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-center text-xs text-ink-dim">
+        <div className="mt-10 border-t border-black/10 pt-6 text-center text-xs text-ink-dim">
           © {new Date().getFullYear()} Brew &amp; Bloom Cafe. Powered by Quellflow.
         </div>
       </div>

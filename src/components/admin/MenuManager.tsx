@@ -59,7 +59,7 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
             placeholder="Item name"
             defaultValue={editing?.name}
             required
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
           />
           <input
             name="price"
@@ -69,12 +69,12 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
             placeholder="Price"
             defaultValue={editing?.price}
             required
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
           />
           <select
             name="category"
             defaultValue={editing?.category ?? "COFFEE"}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
           >
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
@@ -86,13 +86,13 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
             name="imageUrl"
             placeholder="Image URL (optional)"
             defaultValue={editing?.imageUrl ?? ""}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
           />
           <textarea
             name="description"
             placeholder="Description"
             defaultValue={editing?.description ?? ""}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none sm:col-span-2"
+            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none sm:col-span-2"
           />
           <label className="flex items-center gap-2 text-sm text-ink-dim">
             <input
@@ -118,7 +118,7 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
 
       <div className="glass-card overflow-hidden rounded-2xl">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-white/10 text-ink-dim">
+          <thead className="border-b border-black/10 text-ink-dim">
             <tr>
               <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Category</th>
@@ -127,7 +127,7 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
               <th className="px-6 py-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/10">
+          <tbody className="divide-y divide-black/10">
             {items.map((item) => (
               <tr key={item.id}>
                 <td className="px-6 py-3 font-medium">{item.name}</td>
@@ -138,7 +138,7 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
                     className={
                       item.isAvailable
                         ? "rounded-full bg-lime/10 px-3 py-1 text-xs text-lime"
-                        : "rounded-full bg-white/5 px-3 py-1 text-xs text-ink-dim"
+                        : "rounded-full bg-black/[0.03] px-3 py-1 text-xs text-ink-dim"
                     }
                   >
                     {item.isAvailable ? "Available" : "Hidden"}

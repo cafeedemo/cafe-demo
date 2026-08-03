@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { DEMO_IMAGES } from "../src/lib/demo-images";
 
 const prisma = new PrismaClient();
 
@@ -46,6 +47,7 @@ async function main() {
           description: "Espresso, cold milk, vanilla syrup, ice",
           price: 4.5,
           category: "COFFEE",
+          imageUrl: DEMO_IMAGES.menu[0],
           isFeatured: true,
           sortOrder: 1,
         },
@@ -54,6 +56,7 @@ async function main() {
           description: "Ceremonial matcha with whipped oat foam",
           price: 5.0,
           category: "TEA",
+          imageUrl: DEMO_IMAGES.menu[1],
           isFeatured: true,
           sortOrder: 2,
         },
@@ -76,6 +79,7 @@ async function main() {
           description: "Cold brew topped with vanilla ice cream",
           price: 6.0,
           category: "SPECIALS",
+          imageUrl: DEMO_IMAGES.menu[2],
           isFeatured: true,
           sortOrder: 5,
         },
@@ -86,6 +90,21 @@ async function main() {
           category: "COFFEE",
           sortOrder: 6,
         },
+      ],
+    });
+  }
+
+  const galleryCount = await prisma.galleryImage.count();
+  if (galleryCount === 0) {
+    await prisma.galleryImage.createMany({
+      data: [
+        { imageUrl: DEMO_IMAGES.hero, placement: "HERO", sortOrder: 0 },
+        { imageUrl: DEMO_IMAGES.about, placement: "ABOUT", sortOrder: 0 },
+        ...DEMO_IMAGES.gallery.map((url, i) => ({
+          imageUrl: url,
+          placement: "GALLERY" as const,
+          sortOrder: i,
+        })),
       ],
     });
   }

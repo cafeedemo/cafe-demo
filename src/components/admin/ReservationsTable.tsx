@@ -6,7 +6,7 @@ import { updateReservationStatus } from "@/lib/actions/reservations";
 type ReservationDto = {
   id: string;
   name: string;
-  email: string;
+  email: string | null;
   phone: string;
   partySize: number;
   date: string;
@@ -29,7 +29,7 @@ export function ReservationsTable({ reservations }: { reservations: ReservationD
   return (
     <div className="glass-card overflow-x-auto rounded-2xl">
       <table className="w-full text-left text-sm">
-        <thead className="border-b border-white/10 text-ink-dim">
+        <thead className="border-b border-black/10 text-ink-dim">
           <tr>
             <th className="px-6 py-3">Guest</th>
             <th className="px-6 py-3">Contact</th>
@@ -39,7 +39,7 @@ export function ReservationsTable({ reservations }: { reservations: ReservationD
             <th className="px-6 py-3 text-right">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/10">
+        <tbody className="divide-y divide-black/10">
           {reservations.map((r) => (
             <tr key={r.id}>
               <td className="px-6 py-3">
@@ -47,7 +47,7 @@ export function ReservationsTable({ reservations }: { reservations: ReservationD
                 {r.notes && <p className="text-xs text-ink-dim">{r.notes}</p>}
               </td>
               <td className="px-6 py-3 text-ink-dim">
-                <p>{r.email}</p>
+                {r.email && <p>{r.email}</p>}
                 <p>{r.phone}</p>
               </td>
               <td className="px-6 py-3 text-ink-dim">

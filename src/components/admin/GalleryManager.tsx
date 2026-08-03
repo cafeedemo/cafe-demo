@@ -3,13 +3,20 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
-import { createGalleryImage, deleteGalleryImage } from "@/lib/actions/gallery";
+import { createGalleryImage, deleteGalleryImage, updateGalleryPlacement } from "@/lib/actions/gallery";
 
 type GalleryImageDto = {
   id: string;
   imageUrl: string;
   caption: string | null;
+  placement: string;
 };
+
+const PLACEMENTS = [
+  { value: "GALLERY", label: "Gallery page" },
+  { value: "HERO", label: "Homepage hero" },
+  { value: "ABOUT", label: "About section" },
+];
 
 export function GalleryManager({ images }: { images: GalleryImageDto[] }) {
   const formRef = useRef<HTMLFormElement>(null);
@@ -24,20 +31,31 @@ export function GalleryManager({ images }: { images: GalleryImageDto[] }) {
       <form
         ref={formRef}
         action={handleSubmit}
-        className="glass-card mb-8 grid gap-4 rounded-2xl p-6 sm:grid-cols-3"
+        className="glass-card mb-8 grid gap-4 rounded-2xl p-6 sm:grid-cols-4"
       >
         <input
           name="imageUrl"
           placeholder="Image URL (https://...)"
           required
-          className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none sm:col-span-2"
+          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none sm:col-span-2"
         />
         <input
           name="caption"
           placeholder="Caption (optional)"
-          className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
         />
-        <button type="submit" className="gradient-btn rounded-full px-5 py-2.5 text-sm sm:col-span-3">
+        <select
+          name="placement"
+          defaultValue="GALLERY"
+          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+        >
+          {PLACEMENTS.map((p) => (
+            <option key={p.value} value={p.value}>
+              {p.label}
+            </option>
+          ))}
+        </select>
+        <button type="submit" className="gradient-btn rounded-full px-5 py-2.5 text-sm sm:col-span-4">
           Add photo
         </button>
       </form>
@@ -50,22 +68,36 @@ export function GalleryManager({ images }: { images: GalleryImageDto[] }) {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {images.map((img) => (
             <div key={img.id} className="glass-card group relative overflow-hidden rounded-2xl">
-              <Image
-                src={img.imageUrl}
-                alt={img.caption ?? "Gallery photo"}
-                width={300}
-                height={300}
-                className="aspect-square w-full object-cover"
-              />
+              <div className="relative aspect-square w-full">
+                <Image
+                  src={img.imageUrl}
+                  alt={img.caption ?? "Gallery photo"}
+                  fill
+                  className="object-cover"
+                />
+              </div>
               <button
                 onClick={() => deleteGalleryImage(img.id)}
                 className="absolute top-2 right-2 rounded-full bg-black/60 p-2 text-white opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <Trash2 size={14} />
               </button>
-              {img.caption && (
-                <p className="p-2 text-xs text-ink-dim">{img.caption}</p>
-              )}
+              <div className="p-2">
+                <select
+                  defaultValue={img.placement}
+                  onChange={(e) =>
+                    updateGalleryPlacement(img.id, e.target.value as "GALLERY" | "HERO" | "ABOUT")
+                  }
+                  className="w-full rounded-lg border border-black/10 bg-black/[0.03] px-2 py-1 text-xs"
+                >
+                  {PLACEMENTS.map((p) => (
+                    <option key={p.value} value={p.value}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+                {img.caption && <p className="mt-1 text-xs text-ink-dim">{img.caption}</p>}
+              </div>
             </div>
           ))}
         </div>

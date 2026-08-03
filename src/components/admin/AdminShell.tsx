@@ -41,7 +41,7 @@ export function AdminShell({
 
   return (
     <div className="flex min-h-screen">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-base-soft/60 p-6 md:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-black/10 bg-base-soft/60 p-6 md:flex">
         <Link href="/" className="mb-8 flex items-center gap-2 font-heading text-lg font-bold">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink to-purple">
             <Coffee size={18} />
@@ -63,7 +63,7 @@ export function AdminShell({
                   "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors",
                   active
                     ? "bg-gradient-to-r from-pink/20 to-purple/20 text-ink"
-                    : "text-ink-dim hover:bg-white/5 hover:text-ink",
+                    : "text-ink-dim hover:bg-black/[0.03] hover:text-ink",
                 )}
               >
                 <Icon size={18} />
@@ -74,7 +74,7 @@ export function AdminShell({
         </nav>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="mt-6 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-ink-dim hover:bg-white/5 hover:text-pink"
+          className="mt-6 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-ink-dim hover:bg-black/[0.03] hover:text-pink"
         >
           <LogOut size={18} /> Sign out
         </button>
