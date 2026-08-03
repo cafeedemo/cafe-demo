@@ -1,0 +1,86 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { clsx } from "clsx";
+import {
+  LayoutDashboard,
+  UtensilsCrossed,
+  Images,
+  CalendarCheck,
+  FileText,
+  Users,
+  LogOut,
+  Coffee,
+} from "lucide-react";
+
+type NavItem = { href: string; label: string; icon: React.ElementType };
+
+export function AdminShell({
+  base,
+  roleLabel,
+  children,
+}: {
+  base: "/admin" | "/superadmin";
+  roleLabel: string;
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+
+  const nav: NavItem[] = [
+    { href: base, label: "Overview", icon: LayoutDashboard },
+    { href: `${base}/menu`, label: "Menu", icon: UtensilsCrossed },
+    { href: `${base}/gallery`, label: "Gallery", icon: Images },
+    { href: `${base}/reservations`, label: "Reservations", icon: CalendarCheck },
+    { href: `${base}/content`, label: "Site Content", icon: FileText },
+    ...(base === "/superadmin"
+      ? [{ href: "/superadmin/users", label: "Admin Users", icon: Users }]
+      : []),
+  ];
+
+  return (
+    <div className="flex min-h-screen">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-white/10 bg-base-soft/60 p-6 md:flex">
+        <Link href="/" className="mb-8 flex items-center gap-2 font-heading text-lg font-bold">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink to-purple">
+            <Coffee size={18} />
+          </span>
+          <span className="gradient-text">Brew &amp; Bloom</span>
+        </Link>
+        <p className="mb-6 text-xs font-semibold uppercase tracking-widest text-ink-dim">
+          {roleLabel}
+        </p>
+        <nav className="flex flex-1 flex-col gap-1">
+          {nav.map((item) => {
+            const active = pathname === item.href;
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={clsx(
+                  "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors",
+                  active
+                    ? "bg-gradient-to-r from-pink/20 to-purple/20 text-ink"
+                    : "text-ink-dim hover:bg-white/5 hover:text-ink",
+                )}
+              >
+                <Icon size={18} />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <button
+          onClick={() => signOut({ callbackUrl: "/" })}
+          className="mt-6 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-ink-dim hover:bg-white/5 hover:text-pink"
+        >
+          <LogOut size={18} /> Sign out
+        </button>
+      </aside>
+
+      <main className="flex-1 overflow-x-hidden p-6 md:p-10">{children}</main>
+    </div>
+  );
+}

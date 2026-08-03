@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  USER
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  passwordHash  String
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  reservations  Reservation[]
+}
+
+enum MenuCategory {
+  COFFEE
+  TEA
+  PASTRY
+  FOOD
+  SPECIALS
+}
+
+model MenuItem {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal      @db.Decimal(10, 2)
+  category    MenuCategory
+  imageUrl    String?
+  isAvailable Boolean      @default(true)
+  isFeatured  Boolean      @default(false)
+  sortOrder   Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  caption   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model Reservation {
+  id         String            @id @default(cuid())
+  name       String
+  email      String
+  phone      String
+  partySize  Int
+  date       DateTime
+  timeSlot   String
+  notes      String?
+  status     ReservationStatus @default(PENDING)
+  userId     String?
+  user       User?             @relation(fields: [userId], references: [id])
+  createdAt  DateTime          @default(now())
+}
+
+model SiteContent {
+  id          String   @id @default("main")
+  cafeName    String   @default("Quellflow Cafe")
+  tagline     String   @default("Your daily dose of good vibes")
+  heroText    String   @default("Sip. Vibe. Repeat.")
+  aboutText   String   @default("A cozy corner for coffee lovers and dreamers.")
+  address     String   @default("123 Main Street")
+  phone       String   @default("+1 555 123 4567")
+  instagram   String?
+  updatedAt   DateTime @updatedAt
+}

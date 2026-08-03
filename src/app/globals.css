@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --base: #0e0b16;
+  --base-soft: #171225;
+  --ink: #f6f3fb;
+  --ink-dim: #b9b2cc;
+  --pink: #ff4d8d;
+  --orange: #ff8a3d;
+  --purple: #8b5cf6;
+  --lime: #c6ff3d;
+  --card-border: rgba(255, 255, 255, 0.1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-base: var(--base);
+  --color-base-soft: var(--base-soft);
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --color-pink: var(--pink);
+  --color-orange: var(--orange);
+  --color-purple: var(--purple);
+  --color-lime: var(--lime);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
+  background: var(--base);
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-heading {
+  font-family: var(--font-heading), sans-serif;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--pink), var(--orange), var(--purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-btn {
+  background: linear-gradient(90deg, var(--pink), var(--orange));
+  color: #14100a;
+  font-weight: 700;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.gradient-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(16px);
+}
+
+.glow-pink {
+  box-shadow: 0 0 40px -10px rgba(255, 77, 141, 0.5);
+}
+
+.glow-purple {
+  box-shadow: 0 0 40px -10px rgba(139, 92, 246, 0.5);
+}
+
+::selection {
+  background: var(--pink);
+  color: #14100a;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--base);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--pink), var(--purple));
+  border-radius: 999px;
 }
