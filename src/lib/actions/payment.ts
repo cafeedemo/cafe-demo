@@ -5,11 +5,16 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { razorpay } from "@/lib/razorpay";
 
-export async function createRazorpayOrder(amountRupees: number) {
+export async function createRazorpayOrder(sessionId: string, amountRupees: number) {
   const order = await razorpay.orders.create({
     amount: Math.round(amountRupees * 100),
     currency: "INR",
-    receipt: `table-${Date.now()}`,
+    receipt: `session-${sessionId.slice(-12)}`,
+  });
+
+  await prisma.diningSession.update({
+    where: { id: sessionId },
+    data: { razorpayOrderId: order.id },
   });
 
   return {
@@ -20,8 +25,8 @@ export async function createRazorpayOrder(amountRupees: number) {
   };
 }
 
-export async function verifyAndMarkPaid(
-  tableId: string,
+export async function verifyOnlinePayment(
+  sessionId: string,
   razorpayOrderId: string,
   razorpayPaymentId: string,
   razorpaySignature: string,
@@ -35,16 +40,33 @@ export async function verifyAndMarkPaid(
     throw new Error("Payment verification failed");
   }
 
-  await prisma.order.updateMany({
-    where: { tableId, paymentStatus: "PENDING" },
-    data: {
-      paymentStatus: "PAID",
-      paymentMode: "ONLINE",
-      razorpayOrderId,
-      razorpayPaymentId,
-    },
+  const session = await prisma.diningSession.findUnique({ where: { id: sessionId } });
+  if (!session) throw new Error("Session not found");
+
+  // An online payment settles the bill and frees the table immediately —
+  // no staff step needed, unlike paying at the counter.
+  await prisma.$transaction(async (tx) => {
+    await tx.diningSession.update({
+      where: { id: sessionId },
+      data: {
+        status: "CLOSED",
+        paymentStatus: "PAID",
+        paymentMode: "ONLINE",
+        razorpayOrderId,
+        razorpayPaymentId,
+        closedAt: new Date(),
+      },
+    });
+
+    if (session.reservationId) {
+      await tx.reservation.update({
+        where: { id: session.reservationId },
+        data: { status: "COMPLETED" },
+      });
+    }
   });
 
+  revalidatePath("/admin/floor");
   revalidatePath("/admin/orders");
   revalidatePath("/orders");
 }

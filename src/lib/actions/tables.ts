@@ -5,43 +5,63 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/guard";
 
-function revalidateTablePaths() {
-  revalidatePath("/admin/tables");
+function revalidateTables() {
+  revalidatePath("/admin/setup");
+  revalidatePath("/admin/floor");
   revalidatePath("/book");
+  revalidatePath("/order");
 }
 
-const TableSchema = z.object({
-  label: z.string().min(1),
-  seats: z.coerce.number().int().min(1).max(20),
-  shape: z.enum(["square", "round"]).default("square"),
+const PlaceTableSchema = z.object({
+  gridRow: z.coerce.number().int().min(1).max(12),
+  gridCol: z.coerce.number().int().min(1).max(12),
+  seats: z.coerce.number().int().min(1).max(30),
+  shape: z.enum(["SQUARE", "ROUND"]),
 });
 
-export async function createTable(formData: FormData) {
+/** Drop a table onto a grid cell. Table numbers auto-increment. */
+export async function placeTable(input: {
+  gridRow: number;
+  gridCol: number;
+  seats: number;
+  shape: "SQUARE" | "ROUND";
+}) {
   await requireStaff();
-  const parsed = TableSchema.parse({
-    label: formData.get("label"),
-    seats: formData.get("seats"),
-    shape: formData.get("shape") || "square",
-  });
+  const parsed = PlaceTableSchema.parse(input);
 
-  const count = await prisma.table.count();
+  const occupied = await prisma.table.findFirst({
+    where: { gridRow: parsed.gridRow, gridCol: parsed.gridCol },
+  });
+  if (occupied) throw new Error("There's already a table in that spot");
+
+  const highest = await prisma.table.findFirst({ orderBy: { number: "desc" } });
+
   await prisma.table.create({
-    data: { ...parsed, x: 10 + ((count * 20) % 80), y: 10 + Math.floor((count * 20) / 80) * 25 },
+    data: { ...parsed, number: (highest?.number ?? 0) + 1 },
   });
-  revalidateTablePaths();
+
+  revalidateTables();
 }
 
-export async function updateTablePosition(id: string, x: number, y: number) {
+export async function updateTable(
+  id: string,
+  input: { seats?: number; shape?: "SQUARE" | "ROUND"; isActive?: boolean },
+) {
   await requireStaff();
-  await prisma.table.update({
-    where: { id },
-    data: { x: Math.max(0, Math.min(95, x)), y: Math.max(0, Math.min(95, y)) },
-  });
-  revalidateTablePaths();
+  await prisma.table.update({ where: { id }, data: input });
+  revalidateTables();
 }
 
-export async function deleteTable(id: string) {
+export async function removeTable(id: string) {
   await requireStaff();
+
+  const openSession = await prisma.diningSession.findFirst({
+    where: { tableId: id, status: { in: ["OPEN", "BILLED"] } },
+  });
+  if (openSession) {
+    throw new Error("That table has an open bill — settle it before removing the table.");
+  }
+
   await prisma.table.delete({ where: { id } });
-  revalidateTablePaths();
+  revalidateTables();
 }

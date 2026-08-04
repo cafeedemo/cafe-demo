@@ -15,9 +15,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Brew & Bloom Cafe | Sip. Vibe. Repeat.",
+  title: "La Crest | North Indian & Continental in Gandhinagar",
   description:
-    "A cozy, colorful cafe for coffee lovers and dreamers. Order, reserve a table, and vibe with us.",
+    "Book a table, scan and order from your seat, and settle the bill from your phone. North Indian and Continental dining at Infocity, Gandhinagar.",
 };
 
 export default function RootLayout({

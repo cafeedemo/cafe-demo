@@ -91,7 +91,7 @@ export function MenuGrid({ items }: { items: Item[] }) {
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-heading text-lg font-bold">{item.name}</h3>
                   <span className="whitespace-nowrap font-heading font-bold text-pink">
-                    ${item.price}
+                    ₹{item.price}
                   </span>
                 </div>
                 {item.description && (

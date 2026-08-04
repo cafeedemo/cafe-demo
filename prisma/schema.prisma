@@ -49,6 +49,7 @@ enum MediaSource {
 enum MediaCategory {
   DISH
   AMBIENCE
+  EVENT
   HERO
   ABOUT
   GALLERY
@@ -57,12 +58,12 @@ enum MediaCategory {
 }
 
 model MediaAsset {
-  id        String         @id @default(cuid())
+  id        String        @id @default(cuid())
   url       String
-  source    MediaSource    @default(BLOB)
-  category  MediaCategory  @default(OTHER)
+  source    MediaSource   @default(BLOB)
+  category  MediaCategory @default(OTHER)
   label     String?
-  createdAt DateTime       @default(now())
+  createdAt DateTime      @default(now())
 }
 
 enum GalleryPlacement {
@@ -80,39 +81,58 @@ model GalleryImage {
   createdAt DateTime         @default(now())
 }
 
+enum TableShape {
+  SQUARE
+  ROUND
+}
+
 model Table {
-  id        String    @id @default(cuid())
-  label     String
-  seats     Int       @default(2)
-  shape     String    @default("square")
-  x         Float     @default(10)
-  y         Float     @default(10)
-  createdAt DateTime  @default(now())
-  bookings  Booking[]
-  orders    Order[]
+  id       String     @id @default(cuid())
+  number   Int        @unique
+  seats    Int        @default(4)
+  shape    TableShape @default(SQUARE)
+  gridRow  Int
+  gridCol  Int
+  qrToken  String     @unique @default(cuid())
+  isActive Boolean    @default(true)
+
+  reservations Reservation[]
+  sessions     DiningSession[]
+
+  @@unique([gridRow, gridCol])
 }
 
-enum BookingStatus {
-  BOOKED
+enum ReservationStatus {
+  RESERVED
   SEATED
-  DONE
+  COMPLETED
   CANCELLED
+  NO_SHOW
 }
 
-model Booking {
-  id            String        @id @default(cuid())
+model Reservation {
+  id            String            @id @default(cuid())
   tableId       String
-  table         Table         @relation(fields: [tableId], references: [id])
+  table         Table             @relation(fields: [tableId], references: [id], onDelete: Cascade)
   customerName  String
   customerPhone String
   partySize     Int
-  bookedFor     DateTime
-  status        BookingStatus @default(BOOKED)
-  seatedAt      DateTime?
-  doneAt        DateTime?
-  createdAt     DateTime      @default(now())
+  // The window the table is held for. endAt = startAt + settings.reservationHoldMinutes
+  startAt       DateTime
+  endAt         DateTime
+  status        ReservationStatus @default(RESERVED)
+  createdAt     DateTime          @default(now())
+
+  session DiningSession?
 
   @@index([customerPhone])
+  @@index([tableId, startAt])
+}
+
+enum SessionStatus {
+  OPEN
+  BILLED
+  CLOSED
 }
 
 enum PaymentMode {
@@ -125,6 +145,40 @@ enum PaymentStatus {
   PAID
 }
 
+enum OrderChannel {
+  QR
+  MANUAL
+  WAITER
+}
+
+/// A dining session is one visit at one table. It groups every order placed
+/// during that visit so the bill is the sum of them all.
+model DiningSession {
+  id            String        @id @default(cuid())
+  tableId       String
+  table         Table         @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  customerName  String
+  customerPhone String
+  isAnonymous   Boolean       @default(false)
+  reservationId String?       @unique
+  reservation   Reservation?  @relation(fields: [reservationId], references: [id])
+  channel       OrderChannel  @default(MANUAL)
+  status        SessionStatus @default(OPEN)
+  paymentMode   PaymentMode?
+  paymentStatus PaymentStatus @default(PENDING)
+
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+
+  openedAt DateTime  @default(now())
+  closedAt DateTime?
+
+  orders Order[]
+
+  @@index([customerPhone])
+  @@index([tableId, status])
+}
+
 enum OrderStatus {
   PLACED
   PREPARING
@@ -132,47 +186,65 @@ enum OrderStatus {
   CANCELLED
 }
 
-model Order {
-  id                String        @id @default(cuid())
-  customerName      String
-  customerPhone     String
-  tableId           String?
-  table             Table?        @relation(fields: [tableId], references: [id])
-  items             OrderItem[]
-  total             Decimal       @db.Decimal(10, 2)
-  status            OrderStatus   @default(PLACED)
-  paymentMode       PaymentMode?
-  paymentStatus     PaymentStatus @default(PENDING)
-  razorpayOrderId   String?
-  razorpayPaymentId String?
-  createdAt         DateTime      @default(now())
+enum PlacedBy {
+  CUSTOMER
+  WAITER
+}
 
-  @@index([customerPhone])
+model Order {
+  id        String        @id @default(cuid())
+  sessionId String
+  session   DiningSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  status    OrderStatus   @default(PLACED)
+  placedBy  PlacedBy      @default(CUSTOMER)
+  note      String?
+  createdAt DateTime      @default(now())
+
+  items OrderItem[]
 }
 
 model OrderItem {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   orderId    String
-  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order      Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
   menuItemId String?
   menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
   name       String
-  price      Decimal  @db.Decimal(10, 2)
+  price      Decimal   @db.Decimal(10, 2)
   qty        Int
+  /// Free-text customisation, e.g. "no onions, extra spicy"
+  notes      String?
 }
 
 model SiteContent {
-  id                     String   @id @default("main")
-  cafeName               String   @default("Brew & Bloom")
-  tagline                String   @default("Your daily dose of good vibes")
-  heroText               String   @default("Sip. Vibe. Repeat.")
-  aboutText              String   @default("A cozy corner for coffee lovers and dreamers.")
-  address                String   @default("123 Main Street")
-  phone                  String   @default("+1 555 123 4567")
-  instagram              String?
-  openingHours           String   @default("Mon–Sun: 9:00 AM – 11:00 PM")
-  mapEmbedUrl            String?
-  paymentGatewayEnabled  Boolean  @default(false)
-  logoUrl                String?
-  updatedAt              DateTime @updatedAt
+  id           String  @id @default("main")
+  cafeName     String  @default("Brew & Bloom")
+  tagline      String  @default("Your daily dose of good vibes")
+  heroText     String  @default("Sip. Vibe. Repeat.")
+  aboutText    String  @default("A cozy corner for coffee lovers and dreamers.")
+  address      String  @default("123 Main Street")
+  phone        String  @default("+1 555 123 4567")
+  instagram    String?
+  openingHours String  @default("Mon–Sun: 9:00 AM – 11:00 PM")
+  mapEmbedUrl  String?
+  logoUrl      String?
+
+  // ---- Feature settings (Setup Cafe) ----
+  /// How long a table stays held for one reservation, in minutes.
+  reservationHoldMinutes Int     @default(60)
+  /// Earliest a customer may book, measured forward from "now", in minutes.
+  bookingLeadMinutes     Int     @default(30)
+  /// Granularity of bookable time slots, in minutes.
+  slotIntervalMinutes    Int     @default(15)
+  /// When false, customers get an auto-assigned table instead of the floor plan.
+  showLayoutToCustomers  Boolean @default(true)
+  paymentGatewayEnabled  Boolean @default(false)
+  /// Floor plan grid size.
+  gridRows               Int     @default(5)
+  gridCols               Int     @default(5)
+  /// Service window used to generate booking slots (24h local time).
+  serviceOpenHour        Int     @default(9)
+  serviceCloseHour       Int     @default(23)
+
+  updatedAt DateTime @updatedAt
 }

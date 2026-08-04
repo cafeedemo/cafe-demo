@@ -21,15 +21,10 @@ export default async function Home() {
     prisma.galleryImage.findFirst({ where: { placement: "ABOUT" } }),
   ]);
 
-  const serializedFeatured = featured.map((item) => ({
-    ...item,
-    price: item.price.toString(),
-  }));
-
   return (
     <HomeView
       content={content}
-      featured={serializedFeatured}
+      featured={featured.map((item) => ({ ...item, price: item.price.toString() }))}
       gallery={gallery}
       heroImageUrl={heroImage?.imageUrl ?? DEMO_IMAGES.hero}
       aboutImageUrl={aboutImage?.imageUrl ?? DEMO_IMAGES.about}

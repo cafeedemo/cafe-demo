@@ -16,6 +16,7 @@ type FeaturedItem = {
   name: string;
   description: string | null;
   price: string;
+  imageUrl: string | null;
 };
 
 type GalleryItem = { id: string; imageUrl: string; caption: string | null };
@@ -133,7 +134,7 @@ export function HomeView({
                   <TiltCard className="glass-card rounded-3xl p-6">
                     <div className="relative mb-4 h-40 overflow-hidden rounded-2xl">
                       <Image
-                        src={demoMenuImages[i % demoMenuImages.length]}
+                        src={item.imageUrl ?? demoMenuImages[i % demoMenuImages.length]}
                         alt={item.name}
                         fill
                         className="object-cover"
@@ -142,7 +143,7 @@ export function HomeView({
                     <div className="flex items-start justify-between gap-2">
                       <h3 className="font-heading text-lg font-bold">{item.name}</h3>
                       <span className="whitespace-nowrap font-heading font-bold text-pink">
-                        ${item.price}
+                        ₹{item.price}
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-ink-dim">{item.description}</p>
@@ -161,7 +162,7 @@ export function HomeView({
                 Our Story
               </span>
               <h2 className="mt-3 font-heading text-3xl font-bold sm:text-4xl">
-                More than coffee, it&apos;s a <span className="gradient-text">ritual</span>
+                More than a meal, it&apos;s an <span className="gradient-text">occasion</span>
               </h2>
               <p className="mt-4 text-ink-dim">
                 {content?.aboutText ??
@@ -170,18 +171,18 @@ export function HomeView({
               <div className="mt-8 grid grid-cols-3 gap-4 text-center">
                 <div className="glass-card rounded-2xl p-4">
                   <Star className="mx-auto mb-1 text-pink" size={20} />
-                  <p className="font-heading text-xl font-bold">4.9</p>
+                  <p className="font-heading text-xl font-bold">4.0</p>
                   <p className="text-xs text-ink-dim">Rating</p>
                 </div>
                 <div className="glass-card rounded-2xl p-4">
                   <Coffee className="mx-auto mb-1 text-orange" size={20} />
                   <p className="font-heading text-xl font-bold">30+</p>
-                  <p className="text-xs text-ink-dim">Drinks</p>
+                  <p className="text-xs text-ink-dim">Dishes</p>
                 </div>
                 <div className="glass-card rounded-2xl p-4">
                   <Heart className="mx-auto mb-1 text-purple" size={20} />
                   <p className="font-heading text-xl font-bold">10k+</p>
-                  <p className="text-xs text-ink-dim">Happy sips</p>
+                  <p className="text-xs text-ink-dim">Happy guests</p>
                 </div>
               </div>
             </Reveal>

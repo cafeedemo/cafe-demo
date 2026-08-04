@@ -26,7 +26,7 @@ export function Navbar() {
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-pink to-purple">
             <Coffee size={18} />
           </span>
-          <span className="gradient-text">Brew &amp; Bloom</span>
+          <span className="gradient-text">La Crest</span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

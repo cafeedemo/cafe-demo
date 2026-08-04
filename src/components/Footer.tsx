@@ -7,7 +7,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <h3 className="font-heading text-xl font-bold gradient-text">Brew &amp; Bloom</h3>
+            <h3 className="font-heading text-xl font-bold gradient-text">La Crest</h3>
             <p className="mt-2 text-sm text-ink-dim">
               Sip. Vibe. Repeat. Your favorite corner for coffee, good food, and better company.
             </p>
@@ -22,7 +22,7 @@ export function Footer() {
               <Phone size={16} className="text-pink" /> +1 555 123 4567
             </span>
             <span className="flex items-center gap-2">
-              <AtSign size={16} className="text-pink" /> brewandbloom
+              <AtSign size={16} className="text-pink" /> lacrestcafe
             </span>
           </div>
 
@@ -35,7 +35,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 border-t border-black/10 pt-6 text-center text-xs text-ink-dim">
-          © {new Date().getFullYear()} Brew &amp; Bloom Cafe. Powered by Quellflow.
+          © {new Date().getFullYear()} La Crest Cafe. Powered by Quellflow.
         </div>
       </div>
     </footer>
