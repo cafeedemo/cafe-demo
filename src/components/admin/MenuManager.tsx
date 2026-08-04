@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { Plus, Trash2, Pencil, X } from "lucide-react";
 import { createMenuItem, updateMenuItem, deleteMenuItem } from "@/lib/actions/menu";
+import { MediaPicker } from "./MediaPicker";
 
 type MenuItemDto = {
   id: string;
@@ -15,11 +17,14 @@ type MenuItemDto = {
   isFeatured: boolean;
 };
 
+type MediaAssetDto = { id: string; url: string; category: string; label: string | null };
+
 const CATEGORIES = ["COFFEE", "TEA", "PASTRY", "FOOD", "SPECIALS"];
 
-export function MenuManager({ items }: { items: MenuItemDto[] }) {
+export function MenuManager({ items, mediaAssets }: { items: MenuItemDto[]; mediaAssets: MediaAssetDto[] }) {
   const [editing, setEditing] = useState<MenuItemDto | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(formData: FormData) {
@@ -30,6 +35,7 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
     }
     setEditing(null);
     setShowForm(false);
+    setImageUrl("");
     formRef.current?.reset();
   }
 
@@ -39,6 +45,7 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
         <button
           onClick={() => {
             setEditing(null);
+            setImageUrl("");
             setShowForm((s) => !s);
           }}
           className="gradient-btn flex items-center gap-2 rounded-full px-5 py-2.5 text-sm"
@@ -82,12 +89,21 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
               </option>
             ))}
           </select>
-          <input
-            name="imageUrl"
-            placeholder="Image URL (optional)"
-            defaultValue={editing?.imageUrl ?? ""}
-            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
-          />
+          <div className="flex items-center gap-2">
+            <input
+              name="imageUrl"
+              placeholder="Image URL"
+              value={imageUrl || editing?.imageUrl || ""}
+              onChange={(e) => setImageUrl(e.target.value)}
+              className="min-w-0 flex-1 rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+            />
+            <MediaPicker assets={mediaAssets} onSelect={setImageUrl} triggerLabel="Pick" />
+          </div>
+          {(imageUrl || editing?.imageUrl) && (
+            <div className="relative h-20 w-20 overflow-hidden rounded-xl sm:col-span-2">
+              <Image src={imageUrl || editing!.imageUrl!} alt="" fill className="object-cover" />
+            </div>
+          )}
           <textarea
             name="description"
             placeholder="Description"
@@ -148,6 +164,7 @@ export function MenuManager({ items }: { items: MenuItemDto[] }) {
                   <button
                     onClick={() => {
                       setEditing(item);
+                      setImageUrl(item.imageUrl ?? "");
                       setShowForm(true);
                     }}
                     className="mr-3 text-ink-dim hover:text-pink"

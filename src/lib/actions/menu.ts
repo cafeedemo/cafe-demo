@@ -19,7 +19,6 @@ function revalidateMenuPaths() {
   revalidatePath("/menu");
   revalidatePath("/");
   revalidatePath("/admin/menu");
-  revalidatePath("/superadmin/menu");
 }
 
 export async function createMenuItem(formData: FormData) {

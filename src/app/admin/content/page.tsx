@@ -3,16 +3,18 @@ import { prisma } from "@/lib/prisma";
 import { ContentForm } from "@/components/admin/ContentForm";
 
 export default async function AdminContentPage() {
-  const content = await prisma.siteContent.upsert({
-    where: { id: "main" },
-    update: {},
-    create: { id: "main" },
-  });
+  const [content, mediaAssets] = await Promise.all([
+    prisma.siteContent.upsert({ where: { id: "main" }, update: {}, create: { id: "main" } }),
+    prisma.mediaAsset.findMany({ orderBy: { createdAt: "desc" } }),
+  ]);
 
   return (
     <div>
-      <PageHeader title="Site Content" description="Edit the text shown on your homepage." />
-      <ContentForm content={content} />
+      <PageHeader
+        title="Site & Branding"
+        description="Your cafe's name, story, location, hours, logo, and payment settings."
+      />
+      <ContentForm content={content} mediaAssets={mediaAssets} />
     </div>
   );
 }

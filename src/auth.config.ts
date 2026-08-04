@@ -7,7 +7,6 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     jwt({ token, user }) {
       if (user) {
-        token.role = (user as { role: string }).role;
         token.id = user.id as string;
       }
       return token;
@@ -15,7 +14,6 @@ export const authConfig: NextAuthConfig = {
     session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as string;
       }
       return session;
     },

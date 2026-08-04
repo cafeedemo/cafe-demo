@@ -10,20 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  SUPERADMIN
-  ADMIN
-  USER
-}
-
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  passwordHash  String
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now())
-  reservations  Reservation[]
+  id           String   @id @default(cuid())
+  name         String?
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
 }
 
 enum MenuCategory {
@@ -46,6 +38,31 @@ model MenuItem {
   sortOrder   Int          @default(0)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  orderItems  OrderItem[]
+}
+
+enum MediaSource {
+  GIT
+  BLOB
+}
+
+enum MediaCategory {
+  DISH
+  AMBIENCE
+  HERO
+  ABOUT
+  GALLERY
+  LOGO
+  OTHER
+}
+
+model MediaAsset {
+  id        String         @id @default(cuid())
+  url       String
+  source    MediaSource    @default(BLOB)
+  category  MediaCategory  @default(OTHER)
+  label     String?
+  createdAt DateTime       @default(now())
 }
 
 enum GalleryPlacement {
@@ -63,35 +80,99 @@ model GalleryImage {
   createdAt DateTime         @default(now())
 }
 
-enum ReservationStatus {
-  PENDING
-  CONFIRMED
+model Table {
+  id        String    @id @default(cuid())
+  label     String
+  seats     Int       @default(2)
+  shape     String    @default("square")
+  x         Float     @default(10)
+  y         Float     @default(10)
+  createdAt DateTime  @default(now())
+  bookings  Booking[]
+  orders    Order[]
+}
+
+enum BookingStatus {
+  BOOKED
+  SEATED
+  DONE
   CANCELLED
 }
 
-model Reservation {
-  id         String            @id @default(cuid())
+model Booking {
+  id            String        @id @default(cuid())
+  tableId       String
+  table         Table         @relation(fields: [tableId], references: [id])
+  customerName  String
+  customerPhone String
+  partySize     Int
+  bookedFor     DateTime
+  status        BookingStatus @default(BOOKED)
+  seatedAt      DateTime?
+  doneAt        DateTime?
+  createdAt     DateTime      @default(now())
+
+  @@index([customerPhone])
+}
+
+enum PaymentMode {
+  COUNTER
+  ONLINE
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+}
+
+enum OrderStatus {
+  PLACED
+  PREPARING
+  SERVED
+  CANCELLED
+}
+
+model Order {
+  id                String        @id @default(cuid())
+  customerName      String
+  customerPhone     String
+  tableId           String?
+  table             Table?        @relation(fields: [tableId], references: [id])
+  items             OrderItem[]
+  total             Decimal       @db.Decimal(10, 2)
+  status            OrderStatus   @default(PLACED)
+  paymentMode       PaymentMode?
+  paymentStatus     PaymentStatus @default(PENDING)
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  createdAt         DateTime      @default(now())
+
+  @@index([customerPhone])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItemId String?
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
   name       String
-  email      String?
-  phone      String
-  partySize  Int
-  date       DateTime
-  timeSlot   String
-  notes      String?
-  status     ReservationStatus @default(PENDING)
-  userId     String?
-  user       User?             @relation(fields: [userId], references: [id])
-  createdAt  DateTime          @default(now())
+  price      Decimal  @db.Decimal(10, 2)
+  qty        Int
 }
 
 model SiteContent {
-  id          String   @id @default("main")
-  cafeName    String   @default("Quellflow Cafe")
-  tagline     String   @default("Your daily dose of good vibes")
-  heroText    String   @default("Sip. Vibe. Repeat.")
-  aboutText   String   @default("A cozy corner for coffee lovers and dreamers.")
-  address     String   @default("123 Main Street")
-  phone       String   @default("+1 555 123 4567")
-  instagram   String?
-  updatedAt   DateTime @updatedAt
+  id                     String   @id @default("main")
+  cafeName               String   @default("Brew & Bloom")
+  tagline                String   @default("Your daily dose of good vibes")
+  heroText               String   @default("Sip. Vibe. Repeat.")
+  aboutText              String   @default("A cozy corner for coffee lovers and dreamers.")
+  address                String   @default("123 Main Street")
+  phone                  String   @default("+1 555 123 4567")
+  instagram              String?
+  openingHours           String   @default("Mon–Sun: 9:00 AM – 11:00 PM")
+  mapEmbedUrl            String?
+  paymentGatewayEnabled  Boolean  @default(false)
+  logoUrl                String?
+  updatedAt              DateTime @updatedAt
 }

@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Sparkles, Coffee, Heart, Star } from "lucide-react";
+import { Sparkles, Coffee, Heart, Star, MapPin, Clock, Phone } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/Button";
@@ -24,6 +24,10 @@ type SiteContentDto = {
   heroText: string;
   tagline: string;
   aboutText: string;
+  address: string;
+  phone: string;
+  openingHours: string;
+  mapEmbedUrl: string | null;
 } | null;
 
 export function HomeView({
@@ -102,7 +106,7 @@ export function HomeView({
               transition={{ duration: 0.7, delay: 0.3 }}
               className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <Button href="/reserve" variant="primary" className="glow-pink px-8 py-4 text-base">
+              <Button href="/book" variant="primary" className="glow-pink px-8 py-4 text-base">
                 Book a Table
               </Button>
               <Button href="/menu" variant="outline" className="px-8 py-4 text-base">
@@ -189,6 +193,72 @@ export function HomeView({
           </div>
         </section>
 
+        {/* Visit Us */}
+        <section className="relative overflow-hidden px-6 py-20">
+          <div className="mx-auto max-w-6xl">
+            <Reveal className="text-center">
+              <span className="text-xs font-semibold uppercase tracking-widest text-pink">
+                Find Us
+              </span>
+              <h2 className="mt-3 font-heading text-3xl font-bold sm:text-4xl">
+                Come <span className="gradient-text">say hi</span>
+              </h2>
+            </Reveal>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <Reveal className="grid grid-cols-1 gap-4 sm:grid-cols-3 md:grid-cols-1">
+                <div className="glass-card flex items-center gap-4 rounded-2xl p-5">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pink/15 text-pink">
+                    <MapPin size={20} />
+                  </span>
+                  <div>
+                    <p className="font-heading font-bold">Address</p>
+                    <p className="text-sm text-ink-dim">{content?.address ?? "123 Main Street"}</p>
+                  </div>
+                </div>
+                <div className="glass-card flex items-center gap-4 rounded-2xl p-5">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange/15 text-orange">
+                    <Clock size={20} />
+                  </span>
+                  <div>
+                    <p className="font-heading font-bold">Hours</p>
+                    <p className="text-sm text-ink-dim">
+                      {content?.openingHours ?? "Mon–Sun: 9:00 AM – 11:00 PM"}
+                    </p>
+                  </div>
+                </div>
+                <div className="glass-card flex items-center gap-4 rounded-2xl p-5">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple/15 text-purple">
+                    <Phone size={20} />
+                  </span>
+                  <div>
+                    <p className="font-heading font-bold">Phone</p>
+                    <p className="text-sm text-ink-dim">{content?.phone ?? "+1 555 123 4567"}</p>
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.15} className="glass-card glow-pink overflow-hidden rounded-3xl">
+                {content?.mapEmbedUrl ? (
+                  <iframe
+                    src={content.mapEmbedUrl}
+                    className="h-full min-h-[280px] w-full"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                ) : (
+                  <div className="flex h-full min-h-[280px] flex-col items-center justify-center gap-2 bg-gradient-to-br from-pink/10 via-orange/10 to-purple/10 p-8 text-center">
+                    <MapPin className="text-pink" size={28} />
+                    <p className="text-sm text-ink-dim">
+                      Add a Google Maps embed link from the admin panel to show the map here.
+                    </p>
+                  </div>
+                )}
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         {/* Gallery preview */}
         <section className="mx-auto max-w-6xl px-6 py-20">
           <Reveal>
@@ -222,7 +292,7 @@ export function HomeView({
               <p className="mt-3 text-ink-dim">
                 Reserve a table and we&apos;ll have your favorite spot ready.
               </p>
-              <Button href="/reserve" variant="primary" className="mt-8 px-8 py-4 text-base">
+              <Button href="/book" variant="primary" className="mt-8 px-8 py-4 text-base">
                 Reserve Your Spot
               </Button>
             </div>

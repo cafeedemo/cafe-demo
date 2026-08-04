@@ -1,33 +1,17 @@
 # Deploying Brew & Bloom Cafe to Vercel
 
-Follow these steps in order. Copy-paste each command into your terminal.
+This project already uses Supabase Postgres, Vercel Blob (photo uploads), and
+Razorpay (payments). Follow these steps.
 
-## 1. Create a free Postgres database
-
-We'll use Neon (free tier, works great with Vercel).
-
-1. Go to https://neon.tech and sign up (free).
-2. Create a new project (any name, e.g. "brew-and-bloom").
-3. Copy the connection string it gives you — it looks like:
-   `postgresql://user:password@ep-xxxx.neon.tech/neondb?sslmode=require`
-
-## 2. Push this project to GitHub
+## 1. Push to GitHub
 
 ```bash
-git init
 git add .
-git commit -m "Initial cafe website"
+git commit -m "Update cafe website"
+git push
 ```
 
-Then create a new empty repo on https://github.com/new, and run the two commands it shows you (something like):
-
-```bash
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git branch -M main
-git push -u origin main
-```
-
-## 3. Import the project into Vercel
+## 2. Import the project into Vercel
 
 1. Go to https://vercel.com/new and sign in with GitHub.
 2. Select your repo and click **Import**.
@@ -35,35 +19,50 @@ git push -u origin main
 
 | Name | Value |
 |---|---|
-| `DATABASE_URL` | the Neon connection string from step 1 |
+| `DATABASE_URL` | your Supabase pooler connection string, with `?pgbouncer=true` appended |
 | `AUTH_SECRET` | run `openssl rand -base64 32` locally and paste the result |
-| `SUPERADMIN_EMAIL` | the login email for Quellflow (you) |
-| `SUPERADMIN_PASSWORD` | a strong password |
-| `ADMIN_EMAIL` | the login email for the cafe owner |
+| `ADMIN_EMAIL` | login email for the cafe admin account |
 | `ADMIN_PASSWORD` | a strong password |
+| `GEMINI_API_KEY` | your Gemini API key (reserved for future AI features) |
+| `BLOB_READ_WRITE_TOKEN` | from Vercel → Storage → your Blob store |
+| `RAZORPAY_KEY_ID` | from your Razorpay dashboard |
+| `RAZORPAY_KEY_SECRET` | from your Razorpay dashboard — **never commit this** |
+| `NEXT_PUBLIC_RAZORPAY_KEY_ID` | same value as `RAZORPAY_KEY_ID` |
 
 4. Click **Deploy**.
 
-## 4. Set up the database tables and starter data
+⚠️ **Your Razorpay keys are LIVE keys.** Real payments go through them. If you
+ever paste them anywhere outside Vercel's environment variables (chat, docs,
+a public repo), rotate them immediately in the Razorpay dashboard.
 
-After the Neon database exists, run these once from your computer (with `DATABASE_URL`
-pointed at your Neon database — you can temporarily put it in `.env` locally):
+## 3. Set up database tables and starter data
+
+Point `DATABASE_URL` at your Supabase database locally (in `.env`), then run:
 
 ```bash
-npx prisma migrate deploy
+npx prisma db push
 npm run seed
 ```
 
-This creates the tables and your superadmin + admin accounts with the sample menu.
+This creates the tables, your admin account, sample menu items with photos,
+a default 8-table floor plan, and the demo gallery images.
 
-## 5. You're live
+Note: for `db push` specifically, Supabase's pooled connection (port 6543)
+doesn't support schema changes — use the direct/session connection (port 5432,
+same host and credentials) just for this command.
 
-Visit the URL Vercel gives you. Log in at `/login` with the superadmin or admin
-credentials you set above.
+## 4. You're live
 
-- Superadmin dashboard: `/superadmin`
-- Admin dashboard: `/admin`
+Visit the URL Vercel gives you.
+
+- Admin dashboard: `/admin` — log in with the admin credentials above
+- Customers book tables at `/book`, place orders at `/order`, and look up
+  past orders at `/orders` (just their name + mobile number, no login)
+- Manage everything — menu, photos, table layout, bookings, orders, branding,
+  and the payment gateway toggle — from the admin sidebar
 
 ## Making changes later
 
-Any time you edit code and push to GitHub (`git push`), Vercel automatically redeploys.
+Any time you edit code and push to GitHub (`git push`), Vercel automatically
+redeploys. Schema changes need `npx prisma db push` run against Supabase
+manually (Vercel doesn't do this for you).

@@ -5,21 +5,8 @@ import { DEMO_IMAGES } from "../src/lib/demo-images";
 const prisma = new PrismaClient();
 
 async function main() {
-  const superadminEmail = process.env.SUPERADMIN_EMAIL ?? "quellflow@quellflow.com";
-  const superadminPassword = process.env.SUPERADMIN_PASSWORD ?? "Quellflow@123";
   const adminEmail = process.env.ADMIN_EMAIL ?? "owner@cafe.com";
   const adminPassword = process.env.ADMIN_PASSWORD ?? "CafeOwner@123";
-
-  await prisma.user.upsert({
-    where: { email: superadminEmail },
-    update: {},
-    create: {
-      name: "Quellflow",
-      email: superadminEmail,
-      passwordHash: await bcrypt.hash(superadminPassword, 10),
-      role: "SUPERADMIN",
-    },
-  });
 
   await prisma.user.upsert({
     where: { email: adminEmail },
@@ -28,7 +15,6 @@ async function main() {
       name: "Cafe Owner",
       email: adminEmail,
       passwordHash: await bcrypt.hash(adminPassword, 10),
-      role: "ADMIN",
     },
   });
 
@@ -109,9 +95,36 @@ async function main() {
     });
   }
 
+  const tableCount = await prisma.table.count();
+  if (tableCount === 0) {
+    await prisma.table.createMany({
+      data: [
+        { label: "T1", seats: 2, x: 10, y: 15 },
+        { label: "T2", seats: 2, x: 30, y: 15 },
+        { label: "T3", seats: 4, x: 50, y: 15 },
+        { label: "T4", seats: 4, x: 70, y: 15 },
+        { label: "T5", seats: 4, x: 10, y: 45 },
+        { label: "T6", seats: 6, x: 30, y: 45 },
+        { label: "T7", seats: 6, x: 50, y: 45 },
+        { label: "T8", seats: 2, x: 70, y: 45 },
+      ],
+    });
+  }
+
+  const mediaCount = await prisma.mediaAsset.count();
+  if (mediaCount === 0) {
+    await prisma.mediaAsset.createMany({
+      data: Array.from({ length: 13 }, (_, i) => ({
+        url: `/dishes/dish-${i + 1}.avif`,
+        source: "GIT" as const,
+        category: "DISH" as const,
+        label: `Dish photo ${i + 1}`,
+      })),
+    });
+  }
+
   console.log("Seed complete:");
-  console.log(`  Superadmin -> ${superadminEmail} / ${superadminPassword}`);
-  console.log(`  Admin      -> ${adminEmail} / ${adminPassword}`);
+  console.log(`  Admin -> ${adminEmail} / ${adminPassword}`);
 }
 
 main()

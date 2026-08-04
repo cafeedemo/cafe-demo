@@ -10,19 +10,14 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Menu" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/reserve", label: "Reserve" },
+  { href: "/book", label: "Book a Table" },
+  { href: "/order", label: "Order" },
+  { href: "/orders", label: "My Orders" },
 ];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
-
-  const dashboardHref =
-    session?.user?.role === "SUPERADMIN"
-      ? "/superadmin"
-      : session?.user?.role === "ADMIN"
-        ? "/admin"
-        : null;
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-base/70 backdrop-blur-xl">
@@ -49,24 +44,17 @@ export function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {session ? (
             <>
-              {dashboardHref && (
-                <Button href={dashboardHref} variant="outline">
-                  Dashboard
-                </Button>
-              )}
+              <Button href="/admin" variant="outline">
+                Dashboard
+              </Button>
               <Button variant="ghost" onClick={() => signOut({ callbackUrl: "/" })}>
                 Sign out
               </Button>
             </>
           ) : (
-            <>
-              <Button href="/login" variant="ghost">
-                Log in
-              </Button>
-              <Button href="/reserve" variant="primary">
-                Book a Table
-              </Button>
-            </>
+            <Button href="/book" variant="primary">
+              Book a Table
+            </Button>
           )}
         </div>
 
@@ -94,24 +82,17 @@ export function Navbar() {
             ))}
             {session ? (
               <>
-                {dashboardHref && (
-                  <Button href={dashboardHref} variant="outline">
-                    Dashboard
-                  </Button>
-                )}
+                <Button href="/admin" variant="outline">
+                  Dashboard
+                </Button>
                 <Button variant="ghost" onClick={() => signOut({ callbackUrl: "/" })}>
                   Sign out
                 </Button>
               </>
             ) : (
-              <>
-                <Button href="/login" variant="outline">
-                  Log in
-                </Button>
-                <Button href="/reserve" variant="primary">
-                  Book a Table
-                </Button>
-              </>
+              <Button href="/book" variant="primary">
+                Book a Table
+              </Button>
             )}
           </div>
         </div>

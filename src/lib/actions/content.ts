@@ -13,6 +13,9 @@ const ContentSchema = z.object({
   address: z.string().min(1),
   phone: z.string().min(1),
   instagram: z.string().optional(),
+  openingHours: z.string().min(1),
+  mapEmbedUrl: z.string().optional(),
+  logoUrl: z.string().optional(),
 });
 
 export async function updateSiteContent(formData: FormData) {
@@ -26,6 +29,9 @@ export async function updateSiteContent(formData: FormData) {
     address: formData.get("address"),
     phone: formData.get("phone"),
     instagram: formData.get("instagram") || undefined,
+    openingHours: formData.get("openingHours"),
+    mapEmbedUrl: formData.get("mapEmbedUrl") || undefined,
+    logoUrl: formData.get("logoUrl") || undefined,
   });
 
   await prisma.siteContent.upsert({
@@ -36,5 +42,15 @@ export async function updateSiteContent(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/admin/content");
-  revalidatePath("/superadmin/content");
+}
+
+export async function togglePaymentGateway(enabled: boolean) {
+  await requireStaff();
+  await prisma.siteContent.upsert({
+    where: { id: "main" },
+    update: { paymentGatewayEnabled: enabled },
+    create: { id: "main", paymentGatewayEnabled: enabled },
+  });
+  revalidatePath("/admin/content");
+  revalidatePath("/pay/[tableId]", "page");
 }

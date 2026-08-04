@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { createGalleryImage, deleteGalleryImage, updateGalleryPlacement } from "@/lib/actions/gallery";
+import { MediaPicker } from "./MediaPicker";
 
 type GalleryImageDto = {
   id: string;
@@ -12,18 +13,22 @@ type GalleryImageDto = {
   placement: string;
 };
 
+type MediaAssetDto = { id: string; url: string; category: string; label: string | null };
+
 const PLACEMENTS = [
   { value: "GALLERY", label: "Gallery page" },
   { value: "HERO", label: "Homepage hero" },
   { value: "ABOUT", label: "About section" },
 ];
 
-export function GalleryManager({ images }: { images: GalleryImageDto[] }) {
+export function GalleryManager({ images, mediaAssets }: { images: GalleryImageDto[]; mediaAssets: MediaAssetDto[] }) {
   const formRef = useRef<HTMLFormElement>(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   async function handleSubmit(formData: FormData) {
     await createGalleryImage(formData);
     formRef.current?.reset();
+    setImageUrl("");
   }
 
   return (
@@ -33,12 +38,17 @@ export function GalleryManager({ images }: { images: GalleryImageDto[] }) {
         action={handleSubmit}
         className="glass-card mb-8 grid gap-4 rounded-2xl p-6 sm:grid-cols-4"
       >
-        <input
-          name="imageUrl"
-          placeholder="Image URL (https://...)"
-          required
-          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none sm:col-span-2"
-        />
+        <div className="flex items-center gap-2 sm:col-span-2">
+          <input
+            name="imageUrl"
+            placeholder="Image URL"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            required
+            className="min-w-0 flex-1 rounded-xl border border-black/10 bg-black/[0.03] px-4 py-2.5 text-sm focus:border-pink focus:outline-none"
+          />
+          <MediaPicker assets={mediaAssets} onSelect={setImageUrl} triggerLabel="Pick" />
+        </div>
         <input
           name="caption"
           placeholder="Caption (optional)"
@@ -62,7 +72,7 @@ export function GalleryManager({ images }: { images: GalleryImageDto[] }) {
 
       {images.length === 0 ? (
         <p className="text-sm text-ink-dim">
-          No photos yet. Paste an image URL above to add your first one.
+          No photos yet. Pick or paste an image URL above to add your first one.
         </p>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">

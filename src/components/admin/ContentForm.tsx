@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Check } from "lucide-react";
-import { updateSiteContent } from "@/lib/actions/content";
+import { updateSiteContent, togglePaymentGateway } from "@/lib/actions/content";
+import { MediaPicker } from "./MediaPicker";
 
 type SiteContentDto = {
   cafeName: string;
@@ -12,10 +14,24 @@ type SiteContentDto = {
   address: string;
   phone: string;
   instagram: string | null;
+  openingHours: string;
+  mapEmbedUrl: string | null;
+  logoUrl: string | null;
+  paymentGatewayEnabled: boolean;
 };
 
-export function ContentForm({ content }: { content: SiteContentDto }) {
+type MediaAssetDto = { id: string; url: string; category: string; label: string | null };
+
+export function ContentForm({
+  content,
+  mediaAssets,
+}: {
+  content: SiteContentDto;
+  mediaAssets: MediaAssetDto[];
+}) {
   const [saved, setSaved] = useState(false);
+  const [logoUrl, setLogoUrl] = useState(content.logoUrl ?? "");
+  const [gatewayEnabled, setGatewayEnabled] = useState(content.paymentGatewayEnabled);
 
   async function handleSubmit(formData: FormData) {
     await updateSiteContent(formData);
@@ -24,26 +40,63 @@ export function ContentForm({ content }: { content: SiteContentDto }) {
   }
 
   return (
-    <form action={handleSubmit} className="glass-card flex max-w-2xl flex-col gap-5 rounded-2xl p-6">
-      <FieldGroup label="Cafe name" name="cafeName" defaultValue={content.cafeName} />
-      <FieldGroup label="Tagline" name="tagline" defaultValue={content.tagline} />
-      <FieldGroup label="Hero headline" name="heroText" defaultValue={content.heroText} />
-      <FieldGroup label="About text" name="aboutText" defaultValue={content.aboutText} textarea />
-      <div className="grid gap-5 sm:grid-cols-2">
-        <FieldGroup label="Address" name="address" defaultValue={content.address} />
-        <FieldGroup label="Phone" name="phone" defaultValue={content.phone} />
-      </div>
-      <FieldGroup
-        label="Instagram handle (optional)"
-        name="instagram"
-        defaultValue={content.instagram ?? ""}
-      />
+    <div className="flex flex-col gap-6">
+      <form action={handleSubmit} className="glass-card flex max-w-2xl flex-col gap-5 rounded-2xl p-6">
+        <div className="flex items-center gap-4">
+          <div className="relative h-16 w-16 overflow-hidden rounded-xl border border-black/10 bg-black/[0.03]">
+            {logoUrl && <Image src={logoUrl} alt="Logo" fill className="object-cover" />}
+          </div>
+          <input type="hidden" name="logoUrl" value={logoUrl} />
+          <MediaPicker assets={mediaAssets} onSelect={setLogoUrl} triggerLabel="Choose logo" />
+        </div>
 
-      <button type="submit" className="gradient-btn flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold">
-        {saved ? <Check size={16} /> : null}
-        {saved ? "Saved!" : "Save changes"}
-      </button>
-    </form>
+        <FieldGroup label="Cafe name" name="cafeName" defaultValue={content.cafeName} />
+        <FieldGroup label="Tagline" name="tagline" defaultValue={content.tagline} />
+        <FieldGroup label="Hero headline" name="heroText" defaultValue={content.heroText} />
+        <FieldGroup label="About text" name="aboutText" defaultValue={content.aboutText} textarea />
+        <div className="grid gap-5 sm:grid-cols-2">
+          <FieldGroup label="Address" name="address" defaultValue={content.address} />
+          <FieldGroup label="Phone" name="phone" defaultValue={content.phone} />
+        </div>
+        <FieldGroup label="Opening hours" name="openingHours" defaultValue={content.openingHours} />
+        <FieldGroup
+          label="Google Maps embed URL (optional)"
+          name="mapEmbedUrl"
+          defaultValue={content.mapEmbedUrl ?? ""}
+        />
+        <FieldGroup
+          label="Instagram handle (optional)"
+          name="instagram"
+          defaultValue={content.instagram ?? ""}
+        />
+
+        <button type="submit" className="gradient-btn flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold">
+          {saved ? <Check size={16} /> : null}
+          {saved ? "Saved!" : "Save changes"}
+        </button>
+      </form>
+
+      <div className="glass-card flex max-w-2xl items-center justify-between rounded-2xl p-6">
+        <div>
+          <p className="font-heading font-bold">Online payments (Razorpay)</p>
+          <p className="text-sm text-ink-dim">
+            When off, customers only see &quot;Pay at Counter&quot; on the bill page.
+          </p>
+        </div>
+        <button
+          onClick={async () => {
+            const next = !gatewayEnabled;
+            setGatewayEnabled(next);
+            await togglePaymentGateway(next);
+          }}
+          className={`relative h-7 w-12 rounded-full transition-colors ${gatewayEnabled ? "bg-pink" : "bg-black/15"}`}
+        >
+          <span
+            className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-transform ${gatewayEnabled ? "translate-x-6" : "translate-x-1"}`}
+          />
+        </button>
+      </div>
+    </div>
   );
 }
 

@@ -8,36 +8,28 @@ import {
   LayoutDashboard,
   UtensilsCrossed,
   Images,
+  LayoutGrid,
   CalendarCheck,
+  ClipboardList,
   FileText,
-  Users,
   LogOut,
   Coffee,
 } from "lucide-react";
 
 type NavItem = { href: string; label: string; icon: React.ElementType };
 
-export function AdminShell({
-  base,
-  roleLabel,
-  children,
-}: {
-  base: "/admin" | "/superadmin";
-  roleLabel: string;
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
+const NAV: NavItem[] = [
+  { href: "/admin", label: "Overview", icon: LayoutDashboard },
+  { href: "/admin/menu", label: "Menu", icon: UtensilsCrossed },
+  { href: "/admin/media", label: "Media Library", icon: Images },
+  { href: "/admin/tables", label: "Table Layout", icon: LayoutGrid },
+  { href: "/admin/bookings", label: "Bookings", icon: CalendarCheck },
+  { href: "/admin/orders", label: "Orders", icon: ClipboardList },
+  { href: "/admin/content", label: "Site & Branding", icon: FileText },
+];
 
-  const nav: NavItem[] = [
-    { href: base, label: "Overview", icon: LayoutDashboard },
-    { href: `${base}/menu`, label: "Menu", icon: UtensilsCrossed },
-    { href: `${base}/gallery`, label: "Gallery", icon: Images },
-    { href: `${base}/reservations`, label: "Reservations", icon: CalendarCheck },
-    { href: `${base}/content`, label: "Site Content", icon: FileText },
-    ...(base === "/superadmin"
-      ? [{ href: "/superadmin/users", label: "Admin Users", icon: Users }]
-      : []),
-  ];
+export function AdminShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
 
   return (
     <div className="flex min-h-screen">
@@ -49,10 +41,10 @@ export function AdminShell({
           <span className="gradient-text">Brew &amp; Bloom</span>
         </Link>
         <p className="mb-6 text-xs font-semibold uppercase tracking-widest text-ink-dim">
-          {roleLabel}
+          Admin
         </p>
         <nav className="flex flex-1 flex-col gap-1">
-          {nav.map((item) => {
+          {NAV.map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
             return (

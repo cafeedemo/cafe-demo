@@ -30,7 +30,7 @@ export function Footer() {
             <span className="font-heading font-semibold text-ink">Explore</span>
             <Link href="/menu" className="hover:text-ink">Menu</Link>
             <Link href="/gallery" className="hover:text-ink">Gallery</Link>
-            <Link href="/reserve" className="hover:text-ink">Reserve a Table</Link>
+            <Link href="/book" className="hover:text-ink">Reserve a Table</Link>
           </div>
         </div>
 

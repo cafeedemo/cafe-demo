@@ -1,23 +1,24 @@
-import { UtensilsCrossed, Images, CalendarCheck, Clock } from "lucide-react";
+import { UtensilsCrossed, Images, CalendarCheck, LayoutGrid } from "lucide-react";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminOverview() {
-  const [menuCount, galleryCount, pendingCount, upcoming] = await Promise.all([
+  const [menuCount, mediaCount, tableCount, upcoming] = await Promise.all([
     prisma.menuItem.count(),
-    prisma.galleryImage.count(),
-    prisma.reservation.count({ where: { status: "PENDING" } }),
-    prisma.reservation.findMany({
-      orderBy: { date: "asc" },
+    prisma.mediaAsset.count(),
+    prisma.table.count(),
+    prisma.booking.findMany({
+      orderBy: { bookedFor: "asc" },
       take: 5,
-      where: { status: { not: "CANCELLED" } },
+      where: { status: { in: ["BOOKED", "SEATED"] } },
+      include: { table: true },
     }),
   ]);
 
   const stats = [
     { label: "Menu items", value: menuCount, icon: UtensilsCrossed },
-    { label: "Gallery photos", value: galleryCount, icon: Images },
-    { label: "Pending reservations", value: pendingCount, icon: Clock },
+    { label: "Media assets", value: mediaCount, icon: Images },
+    { label: "Tables", value: tableCount, icon: LayoutGrid },
   ];
 
   return (
@@ -36,22 +37,24 @@ export default async function AdminOverview() {
 
       <div className="glass-card mt-8 rounded-2xl p-6">
         <h2 className="mb-4 flex items-center gap-2 font-heading text-lg font-bold">
-          <CalendarCheck size={18} className="text-pink" /> Upcoming reservations
+          <CalendarCheck size={18} className="text-pink" /> Upcoming bookings
         </h2>
         {upcoming.length === 0 ? (
-          <p className="text-sm text-ink-dim">No upcoming reservations yet.</p>
+          <p className="text-sm text-ink-dim">No upcoming bookings yet.</p>
         ) : (
           <div className="flex flex-col divide-y divide-black/10">
-            {upcoming.map((r) => (
-              <div key={r.id} className="flex items-center justify-between py-3 text-sm">
+            {upcoming.map((b) => (
+              <div key={b.id} className="flex items-center justify-between py-3 text-sm">
                 <div>
-                  <p className="font-semibold">{r.name}</p>
+                  <p className="font-semibold">
+                    {b.customerName} · Table {b.table.label}
+                  </p>
                   <p className="text-ink-dim">
-                    {r.date.toLocaleDateString()} · {r.timeSlot} · Party of {r.partySize}
+                    {b.bookedFor.toLocaleString()} · Party of {b.partySize}
                   </p>
                 </div>
                 <span className="rounded-full bg-black/[0.03] px-3 py-1 text-xs text-ink-dim">
-                  {r.status}
+                  {b.status}
                 </span>
               </div>
             ))}

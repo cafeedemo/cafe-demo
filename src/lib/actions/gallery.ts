@@ -15,7 +15,6 @@ function revalidateGalleryPaths() {
   revalidatePath("/gallery");
   revalidatePath("/");
   revalidatePath("/admin/gallery");
-  revalidatePath("/superadmin/gallery");
 }
 
 export async function createGalleryImage(formData: FormData) {
