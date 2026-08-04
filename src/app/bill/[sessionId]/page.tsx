@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Blobs } from "@/components/ui/Blobs";
 import { prisma } from "@/lib/prisma";
+import { isRazorpayConfigured } from "@/lib/razorpay";
 import { BillView } from "./BillView";
 
 export const dynamic = "force-dynamic";
@@ -45,7 +46,11 @@ export default async function BillPage({
             customerName={session.customerName}
             status={session.status}
             paymentStatus={session.paymentStatus}
-            paymentGatewayEnabled={content?.paymentGatewayEnabled ?? false}
+            // Only offer online payment when the admin enabled it AND the keys
+            // are actually present, so we never show a button that can't work.
+            paymentGatewayEnabled={
+              (content?.paymentGatewayEnabled ?? false) && isRazorpayConfigured()
+            }
             total={total}
             orders={liveOrders.map((o) => ({
               id: o.id,

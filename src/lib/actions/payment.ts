@@ -3,10 +3,10 @@
 import crypto from "crypto";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
-import { razorpay } from "@/lib/razorpay";
+import { getRazorpay } from "@/lib/razorpay";
 
 export async function createRazorpayOrder(sessionId: string, amountRupees: number) {
-  const order = await razorpay.orders.create({
+  const order = await getRazorpay().orders.create({
     amount: Math.round(amountRupees * 100),
     currency: "INR",
     receipt: `session-${sessionId.slice(-12)}`,
@@ -31,8 +31,12 @@ export async function verifyOnlinePayment(
   razorpayPaymentId: string,
   razorpaySignature: string,
 ) {
+  if (!process.env.RAZORPAY_KEY_SECRET) {
+    throw new Error("Cannot verify payment — RAZORPAY_KEY_SECRET is missing.");
+  }
+
   const expected = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
     .update(`${razorpayOrderId}|${razorpayPaymentId}`)
     .digest("hex");
 

@@ -25,6 +25,12 @@ export async function uploadMediaAsset(formData: FormData) {
 
   if (!file || file.size === 0) throw new Error("No file selected");
 
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    throw new Error(
+      "Photo uploads aren't set up yet — add BLOB_READ_WRITE_TOKEN in Vercel. You can still use photos already in the library.",
+    );
+  }
+
   const blob = await put(`media/${Date.now()}-${file.name}`, file, {
     access: "public",
   });
