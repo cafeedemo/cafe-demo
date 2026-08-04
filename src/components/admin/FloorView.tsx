@@ -12,7 +12,7 @@ type SessionDto = {
   tableId: string;
   tableNumber: number;
   customerName: string;
-  customerPhone: string;
+  customerPhone: string | null;
   isAnonymous: boolean;
   status: string;
   paymentMode: string | null;
@@ -81,11 +81,11 @@ export function FloorView({
                       <h3 className="font-heading text-lg font-bold">Table {s.tableNumber}</h3>
                       <p className="text-sm text-ink-dim">
                         {s.customerName}
-                        {!s.isAnonymous && ` · ${s.customerPhone}`}
+                        {s.customerPhone && ` · ${s.customerPhone}`}
                       </p>
-                      {s.isAnonymous && (
+                      {!s.customerPhone && (
                         <span className="mt-1 inline-block rounded-full bg-black/[0.04] px-2 py-0.5 text-[10px] text-ink-dim">
-                          guest — no number
+                          walk-in
                         </span>
                       )}
                     </div>

@@ -87,7 +87,7 @@ export async function updateRules(formData: FormData) {
 }
 
 export async function toggleFeature(
-  feature: "paymentGatewayEnabled" | "showLayoutToCustomers",
+  feature: "paymentGatewayEnabled" | "showLayoutToCustomers" | "advanceBookingEnabled",
   enabled: boolean,
 ) {
   await requireStaff();
@@ -95,6 +95,17 @@ export async function toggleFeature(
     where: { id: "main" },
     update: { [feature]: enabled },
     create: { id: "main", [feature]: enabled },
+  });
+  revalidateSettings();
+}
+
+export async function updateAdvanceAmount(amount: number) {
+  await requireStaff();
+  const parsed = z.coerce.number().min(0).max(100000).parse(amount);
+  await prisma.siteContent.upsert({
+    where: { id: "main" },
+    update: { advanceBookingAmount: parsed },
+    create: { id: "main", advanceBookingAmount: parsed },
   });
   revalidateSettings();
 }

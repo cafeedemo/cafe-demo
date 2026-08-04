@@ -1,16 +1,25 @@
 "use client";
 
 import { useActionState, useEffect, useState, useTransition } from "react";
+import Script from "next/script";
 import { clsx } from "clsx";
 import { motion } from "framer-motion";
-import { PartyPopper, CalendarDays, Clock, Info } from "lucide-react";
+import { PartyPopper, CalendarDays, Clock, Info, CreditCard } from "lucide-react";
 import { FloorPlanGrid, type GridTable } from "@/components/FloorPlanGrid";
 import {
   createReservation,
   getAvailability,
+  startAdvanceBooking,
+  confirmAdvanceBooking,
   type ReservationState,
   type SlotAvailability,
 } from "@/lib/actions/reservations";
+
+declare global {
+  interface Window {
+    Razorpay: new (options: Record<string, unknown>) => { open: () => void };
+  }
+}
 
 type Availability = Awaited<ReturnType<typeof getAvailability>>;
 
@@ -30,6 +39,60 @@ export function BookingView({
   const [tableId, setTableId] = useState<string | null>(null);
   const [loading, startTransition] = useTransition();
   const [state, formAction, pending] = useActionState(createReservation, initialState);
+  const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState("");
+  const [paidResult, setPaidResult] = useState<ReservationState | null>(null);
+
+  /**
+   * Deposit bookings pay first, then the reservation is created — so an
+   * abandoned checkout never leaves a table blocked.
+   */
+  async function handleAdvanceSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setPayError("");
+
+    const fd = new FormData(e.currentTarget);
+    const request = {
+      customerName: String(fd.get("customerName") ?? ""),
+      customerPhone: String(fd.get("customerPhone") ?? ""),
+      partySize,
+      startISO: slot!.startISO,
+      tableId: tableId ?? undefined,
+    };
+
+    setPaying(true);
+    try {
+      const order = await startAdvanceBooking(request);
+      const rzp = new window.Razorpay({
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.orderId,
+        name: "Table reservation",
+        description: `Advance for ${slot!.label}`,
+        prefill: { name: request.customerName, contact: request.customerPhone },
+        handler: async (res: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          const result = await confirmAdvanceBooking(request, {
+            razorpayOrderId: res.razorpay_order_id,
+            razorpayPaymentId: res.razorpay_payment_id,
+            razorpaySignature: res.razorpay_signature,
+          });
+          if (result.error) setPayError(result.error);
+          else setPaidResult(result);
+        },
+        theme: { color: "#b0632b" },
+      });
+      rzp.open();
+    } catch (err) {
+      setPayError(err instanceof Error ? err.message : "Couldn't start the payment.");
+    } finally {
+      setPaying(false);
+    }
+  }
 
   // Availability depends on both the date and the party size (a 2-seater can't
   // take a party of 6), so refetch whenever either changes.
@@ -43,8 +106,9 @@ export function BookingView({
   }, [date, partySize]);
 
   const showLayout = data.settings.showLayoutToCustomers;
+  const confirmed = paidResult?.success ? paidResult : state.success ? state : null;
 
-  if (state.success) {
+  if (confirmed) {
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
@@ -53,11 +117,16 @@ export function BookingView({
       >
         <PartyPopper className="text-pink" size={44} />
         <h3 className="font-heading text-2xl font-bold">
-          Table {state.tableNumber} is booked!
+          Table {confirmed.tableNumber} is booked!
         </h3>
         <p className="text-ink-dim">
-          {state.startLabel} · held for {data.settings.reservationHoldMinutes} minutes
+          {confirmed.startLabel} · held for {data.settings.reservationHoldMinutes} minutes
         </p>
+        {paidResult?.success && data.settings.advanceAmount > 0 && (
+          <p className="rounded-full bg-lime/15 px-4 py-1.5 text-xs font-semibold text-lime">
+            Advance of ₹{data.settings.advanceAmount.toFixed(2)} paid
+          </p>
+        )}
         <p className="mt-1 text-sm text-ink-dim">
           Show up and scan the QR on your table to start ordering.
         </p>
@@ -175,10 +244,8 @@ export function BookingView({
 
       {/* Step 4 — details */}
       {slot && (showLayout ? tableId : true) && (
-        <form action={formAction} className="glass-card glow-pink flex flex-col gap-4 rounded-3xl p-6">
-          <input type="hidden" name="startISO" value={slot.startISO} />
-          <input type="hidden" name="partySize" value={partySize} />
-          {tableId && <input type="hidden" name="tableId" value={tableId} />}
+        <div className="glass-card glow-pink rounded-3xl p-6">
+          <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
           <h3 className="font-heading font-bold">
             {tableId
@@ -186,34 +253,66 @@ export function BookingView({
               : `${slot.label} · we'll assign the best free table`}
           </h3>
 
-          <input
-            name="customerName"
-            placeholder="Your name"
-            required
-            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
-          />
-          <input
-            name="customerPhone"
-            type="tel"
-            placeholder="Mobile number (optional)"
-            className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
-          />
-          <p className="text-xs text-ink-dim">
-            Adding your number lets you see this visit under My Orders and collect rewards.
-          </p>
-
-          {state.error && (
-            <p className="rounded-xl bg-pink/10 px-4 py-3 text-sm text-pink">{state.error}</p>
+          {data.settings.advanceRequired && (
+            <p className="mt-3 flex items-start gap-2 rounded-xl bg-orange/10 px-4 py-3 text-xs text-orange">
+              <CreditCard size={14} className="mt-0.5 shrink-0" />
+              This booking needs an advance of ₹{data.settings.advanceAmount.toFixed(2)}, paid
+              now to hold your table. It&apos;s adjusted against your final bill.
+            </p>
           )}
 
-          <button
-            type="submit"
-            disabled={pending}
-            className="gradient-btn rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-60"
+          <form
+            action={data.settings.advanceRequired ? undefined : formAction}
+            onSubmit={data.settings.advanceRequired ? handleAdvanceSubmit : undefined}
+            className="mt-4 flex flex-col gap-4"
           >
-            {pending ? "Booking…" : "Confirm Booking"}
-          </button>
-        </form>
+            <input type="hidden" name="startISO" value={slot.startISO} />
+            <input type="hidden" name="partySize" value={partySize} />
+            {tableId && <input type="hidden" name="tableId" value={tableId} />}
+
+            <input
+              name="customerName"
+              placeholder="Your name"
+              required
+              minLength={2}
+              className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
+            />
+            <div>
+              <input
+                name="customerPhone"
+                type="tel"
+                inputMode="tel"
+                placeholder="Mobile number"
+                required
+                minLength={7}
+                className="w-full rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
+              />
+              <p className="mt-1.5 text-xs text-ink-dim">
+                Required for reservations — we&apos;ll call if anything changes.
+              </p>
+            </div>
+
+            {(state.error || payError) && (
+              <p className="rounded-xl bg-pink/10 px-4 py-3 text-sm text-pink">
+                {payError || state.error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={pending || paying}
+              className="gradient-btn rounded-full px-6 py-3 text-sm font-semibold disabled:opacity-60"
+            >
+              {data.settings.advanceRequired
+                ? paying
+                  ? "Opening payment…"
+                  : `Pay ₹${data.settings.advanceAmount.toFixed(2)} & Confirm`
+                : pending
+                  ? "Booking…"
+                  : "Confirm Booking"}
+            </button>
+          </form>
+        </div>
       )}
     </div>
   );

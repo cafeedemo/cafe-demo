@@ -21,13 +21,30 @@ type TableDto = { id: string; number: number; seats: number };
 
 type Line = { qty: number; notes: string };
 
-const CATEGORIES = ["ALL", "COFFEE", "TEA", "PASTRY", "FOOD", "SPECIALS"];
+const CATEGORIES = [
+  "ALL",
+  "SOUP",
+  "STARTERS",
+  "CONTINENTAL",
+  "CHINESE",
+  "INDIAN_MAIN",
+  "BREADS_RICE",
+  "BEVERAGES",
+  "SALADS",
+  "DESSERTS",
+  "SPECIALS",
+];
 const LABELS: Record<string, string> = {
   ALL: "All",
-  COFFEE: "Coffee",
-  TEA: "Tea",
-  PASTRY: "Desserts",
-  FOOD: "Food",
+  SOUP: "Soups",
+  STARTERS: "Starters",
+  CONTINENTAL: "Continental & Pasta",
+  CHINESE: "Chinese & Noodles",
+  INDIAN_MAIN: "Indian Main Course",
+  BREADS_RICE: "Breads & Biryani",
+  BEVERAGES: "Beverages",
+  SALADS: "Salads",
+  DESSERTS: "Desserts",
   SPECIALS: "Specials",
 };
 
@@ -40,16 +57,18 @@ export function OrderFlow({
   menuItems,
   tables,
   scannedTable,
+  knownName,
   asWaiter = false,
 }: {
   menuItems: MenuItemDto[];
   tables: TableDto[];
   scannedTable?: TableDto | null;
+  /** Name remembered from a previous visit's cookie, if any. */
+  knownName?: string | null;
   asWaiter?: boolean;
 }) {
   const [tableId, setTableId] = useState(scannedTable?.id ?? "");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState(knownName ?? "");
   const [identified, setIdentified] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
 
@@ -97,7 +116,6 @@ export function OrderFlow({
       const id = await startOrJoinSession({
         tableId,
         customerName: name.trim(),
-        customerPhone: phone.trim() || undefined,
         channel: asWaiter ? "WAITER" : scannedTable ? "QR" : "MANUAL",
       });
       setSessionId(id);
@@ -180,24 +198,18 @@ export function OrderFlow({
           </div>
         )}
 
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
-          required
-          className="rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
-        />
         <div>
           <input
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            type="tel"
-            placeholder="Mobile number (optional)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            required
             className="w-full rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
           />
           <p className="mt-1.5 text-xs text-ink-dim">
-            Optional — add it to track this order under My Orders and collect rewards.
-            Skip it and you&apos;ll order as a guest.
+            {knownName
+              ? "Welcome back — we remembered you, so there's nothing else to fill in."
+              : "That's all we need. No sign-up, no phone number — we'll remember you on this device."}
           </p>
         </div>
 

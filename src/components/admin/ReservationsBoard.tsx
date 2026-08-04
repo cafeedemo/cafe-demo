@@ -15,6 +15,8 @@ type ReservationDto = {
   startAt: string;
   endAt: string;
   status: string;
+  advanceAmount: number | null;
+  advancePaid: boolean;
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -106,6 +108,12 @@ export function ReservationsBoard({ reservations }: { reservations: ReservationD
                   minute: "2-digit",
                 })}
               </p>
+
+              {r.advancePaid && r.advanceAmount ? (
+                <span className="mt-2 inline-block rounded-full bg-lime/15 px-2.5 py-1 text-[10px] font-semibold text-lime">
+                  ₹{r.advanceAmount.toFixed(2)} advance paid
+                </span>
+              ) : null}
 
               {r.status === "RESERVED" && (
                 <div className="mt-4 flex flex-wrap gap-2">

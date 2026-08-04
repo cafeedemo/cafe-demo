@@ -16,14 +16,31 @@ type Item = {
   isFeatured: boolean;
 };
 
-const CATEGORIES = ["ALL", "COFFEE", "TEA", "PASTRY", "FOOD", "SPECIALS"] as const;
+const CATEGORIES = [
+  "ALL",
+  "SOUP",
+  "STARTERS",
+  "CONTINENTAL",
+  "CHINESE",
+  "INDIAN_MAIN",
+  "BREADS_RICE",
+  "BEVERAGES",
+  "SALADS",
+  "DESSERTS",
+  "SPECIALS",
+] as const;
 
 const LABELS: Record<string, string> = {
   ALL: "All",
-  COFFEE: "Coffee",
-  TEA: "Tea",
-  PASTRY: "Pastries",
-  FOOD: "Food",
+  SOUP: "Soups",
+  STARTERS: "Starters",
+  CONTINENTAL: "Continental & Pasta",
+  CHINESE: "Chinese & Noodles",
+  INDIAN_MAIN: "Indian Main Course",
+  BREADS_RICE: "Breads & Biryani",
+  BEVERAGES: "Beverages",
+  SALADS: "Salads",
+  DESSERTS: "Desserts",
   SPECIALS: "Specials",
 };
 

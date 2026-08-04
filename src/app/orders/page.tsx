@@ -2,7 +2,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Blobs } from "@/components/ui/Blobs";
 import { Reveal } from "@/components/ui/Reveal";
-import { lookupSessionsByPhone } from "@/lib/actions/sessions";
+import { getMySessions, lookupSessionsByPhone } from "@/lib/actions/sessions";
+import { readGuest } from "@/lib/guest";
 import { OrdersLookup } from "./OrdersLookup";
 
 export const dynamic = "force-dynamic";
@@ -13,10 +14,11 @@ export default async function OrdersPage({
   searchParams: Promise<{ phone?: string }>;
 }) {
   const { phone } = await searchParams;
+  const guest = await readGuest();
 
-  // When we arrive with ?phone= (straight after ordering), resolve it here so
-  // the list is already rendered rather than fetched again on the client.
-  const initialSessions = phone ? await lookupSessionsByPhone(phone) : null;
+  // Nothing to fill in: the guest cookie resolves their visits on arrival.
+  // ?phone= is only a fallback for someone who booked on another device.
+  const sessions = phone ? await lookupSessionsByPhone(phone) : await getMySessions();
 
   return (
     <>
@@ -29,15 +31,29 @@ export default async function OrdersPage({
               Your visits
             </span>
             <h1 className="mt-3 font-heading text-4xl font-bold sm:text-5xl">
-              My <span className="gradient-text">Orders</span>
+              {guest?.name ? (
+                <>
+                  Hi <span className="gradient-text">{guest.name}</span>
+                </>
+              ) : (
+                <>
+                  My <span className="gradient-text">Orders</span>
+                </>
+              )}
             </h1>
             <p className="mx-auto mt-3 max-w-md text-ink-dim">
-              Enter the mobile number you ordered with to see your bills and order IDs.
+              {sessions.length > 0
+                ? "Everything you've ordered with us, newest first."
+                : "Your orders show up here automatically once you order at a table."}
             </p>
           </Reveal>
 
           <div className="mt-10">
-            <OrdersLookup initialPhone={phone} initialSessions={initialSessions} />
+            <OrdersLookup
+              sessions={sessions}
+              recognised={Boolean(guest)}
+              searchedPhone={phone}
+            />
           </div>
         </div>
       </main>

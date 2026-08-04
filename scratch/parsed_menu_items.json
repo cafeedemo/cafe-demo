@@ -1,0 +1,1248 @@
+[
+  {
+    "name": "Potato Cheese Rosti",
+    "description": "Blanced Waffer Potato With Italian Spices And Herbs Topped With Process Cheese Served With Salsa Curry And",
+    "price": 399.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Banana Cheese Rosti",
+    "description": "Blanced Of Raw Banana With Italian Spices And Herbs Topped With Process Cheese Served With Salsa Curry And",
+    "price": 410.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Mexican Hot-Pot",
+    "description": "House Favorite Rice Tossed With Coloured Bell Pepper, American Corn, Rajma Added Mexican Spices And Topped",
+    "price": 450.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Arabita Pasta",
+    "description": "Penel Pasta With Arabitasouce With Bell Peppers , Chilly Flacks And Oragano",
+    "price": 399.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Alfredo Cheese Pasta",
+    "description": "Alfredo Sauce With Fusli Pasta Oragano, Bell Pepper",
+    "price": 399.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Ricodasouce Pasta",
+    "description": "Ricodasouce With Pine Pasta With Rocoda Cheese Bell Pepper And Oraganoherb's",
+    "price": 429.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Spinach Cheese Balls",
+    "description": "Choped Spinach With Fried Garlic four Types Of Cheese, Added Spices Coated , Deep Fried And Served With Pesto",
+    "price": 380.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Cheese Quesadilla",
+    "description": "Green-black Olives ssweet-corn,basil And Spices With Process Cheese Sauteed And Wrapped In Tortilla Sheet And",
+    "price": 429.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Burritos Del Casa",
+    "description": "Two Type Of Beans With Black Pepper, Olives Sauteed With Spices , Process Cheese Wrapped In Tortilla Sheet And",
+    "price": 410.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Cheese Fondue",
+    "description": "Accompanied With Saute Exotic Vegetables, Foccacia Whole Wheat Bread With Olives & Herbs Served With Three",
+    "price": 440.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Tostadas",
+    "description": "Pile Them With Your Favorite Toppings And Dig In These Are Made With A Crispy Fried Corn Tortilla Topped With",
+    "price": 410.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Nachos Supreme",
+    "description": "Super Popular Mexican Snack Made Of Corn Chips Served With Salsa Curry And Cheese Sauce",
+    "price": 350.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Tacos",
+    "description": "A Traditional Mexican Dish Consisting Of A Small Hand Sized Corn Tortilla Sheet Wrapped With Two Type Of Beans",
+    "price": 380.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "American Cheese Ball",
+    "description": "American Corn Crushed With Chopped Coloured Bell Pepper, Three Type Of Cheese, Basiland Deep Fried Served",
+    "price": 390.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Cottage Cheese Pesto",
+    "description": "Finger Cut Cttage Cheese Tossed With Added Spices In Pesto Sauce Garnish Basil Leaves",
+    "price": 399.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Paneer Signature Roll",
+    "description": "Cubes Of Cottage Cheese With Italian Added Seasoning, Gratedcheese, Wrapped With Bread Sheet Served With",
+    "price": 429.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Garllic Brad",
+    "description": null,
+    "price": 240.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Bruschetta",
+    "description": "Anitalian Side Dish Loaded With Juicy Topping",
+    "price": 380.0,
+    "category": "FOOD",
+    "file": "0486db9b690f0ae9c9a914bd5d033a28.jpg"
+  },
+  {
+    "name": "Mexican Rice With Salsa Curry",
+    "description": "Mexican Rice, Rajma, With Salsa Souce,bell Papper, American Corn",
+    "price": 380.0,
+    "category": "FOOD",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Veracruz - Cowboy Rice",
+    "description": "Cheddar Cheese & Tripeppers Tossed In Brown Veracruz Sauce Served With",
+    "price": 410.0,
+    "category": "FOOD",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Green Herb Rice",
+    "description": "Cheese-cottage Cheese Rancheros-mexican Rice Bbq Of Cheese, Cottage Cheese Served On Bed Of Mexican Rice",
+    "price": 429.0,
+    "category": "FOOD",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Mexican Rice",
+    "description": "Rice, American Corn, Bell Papper, Chilli Flakes Cooked With Mexican Sauce",
+    "price": 310.0,
+    "category": "FOOD",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Dragon Cottage Cheese With Spinach Dust",
+    "description": "Triangular Cutting Of Cottage Cheese Coated With Corn Flour, Deep Ffried, Sauted With Schezwan Sauce, Chinese",
+    "price": 440.0,
+    "category": "FOOD",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Davil Panee",
+    "description": "Diamond Cutting Of Cottage Cheese Coated, Deep Fried And Stirred With Spicy Red Curry Paste Along With Thai",
+    "price": 399.0,
+    "category": "FOOD",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Thai Phad Noodles",
+    "description": "Flat Thai Style Noodles With Thai Spices And Exotic Veggies lA",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Khow Suey",
+    "description": "Garnished Meal With Magnificent Topping Made eg es Ly",
+    "price": 429.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Burmese Garlic Noodles",
+    "description": "Burmese Style Noodles And Juliennes, Tossed In Garlic Sauce an quet",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Teriyaki Stir Fried Noodles",
+    "description": "Your Favourite Noodles With Japanese Twist",
+    "price": 360.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Sai Kung Noodles With Hot Fried Dumplings",
+    "description": "Famous On The Street Of Sai-kung, A Province In Hong Kong",
+    "price": 340.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Chow Mein",
+    "description": "A Chinese Nepalese Fusion... Noodles Tossed Well In Chilli Soy Sauce And Juliennes",
+    "price": 360.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Korean Style Veg. & Noodles",
+    "description": "Basli Butter Sauce - Steam Rice",
+    "price": 440.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Exotic Pot Vegetables In Black Pepper Sauce",
+    "description": "Burnt Garlic Friend Rice",
+    "price": 440.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Thai Red Curry - Steam Rice",
+    "description": "Spicy Thai Curry",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Thai Green Curry - Steam Rice",
+    "description": "Fragrant Curry Of Basil, Tofu And Exotic Veggies",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "Cottage Cheese Tri-Peppaers Sauce",
+    "description": "Our Version Of Paneer Chilly Brown Sauce & Fried Rice",
+    "price": 410.0,
+    "category": "STARTERS",
+    "file": "6370b98a161a488ef47f1a0b17f4431e.jpg"
+  },
+  {
+    "name": "\u00bb After Placing The Order Kindly Allow Us Minimum",
+    "description": "+ Items Will Be Served Only On Subject To Availablitity",
+    "price": 30.0,
+    "category": "DESSERTS",
+    "file": "91a5dfd0d32e35434245333413271c1c.jpg"
+  },
+  {
+    "name": "Kabab Platte",
+    "description": "3 Type OF Tikka, Tanduri Aloo Ghobi & Sheekh Kebab",
+    "price": 888.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Maharaja Platte",
+    "description": null,
+    "price": 2023.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Pathankot Ke Paneer Tikka",
+    "description": "Lal Mirch, Malai, Pudina, Resmi, Peshawari",
+    "price": 440.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Peri-Peri Paneer Tikka",
+    "description": "Paneer Tikka With Tingling Cheese Peri Peri Sauce",
+    "price": 450.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Paneer Kathi Rolls",
+    "description": "Kabab With Kolkata Connection",
+    "price": 440.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Tandoori Momo",
+    "description": "A Speciallity Of Nepal With Indian Twist Momos Stuffed With Farm Veggies, Marinated In Tandoori Masalas And",
+    "price": 399.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Hariyali Cheese Kabab Croquettes",
+    "description": "Our Special Presentation Of Hara-Bhara Kabab",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Tandoori Shrooms",
+    "description": "farm Fresh Mushrooms Stuffed With Fresh Ground Masalas, Cheese, Grilled To Perfection",
+    "price": 399.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Tandoori Bharwan Aloo",
+    "description": "Recipe From The Royal kitchen Of Avadh... Big Potato Stuffed With Crumpled Cottage Cheese, Cashews And",
+    "price": 410.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Corn Tikki",
+    "description": "American Corn Crushed, Soacked In Pan With Added Indian Spices, Deep Fried And Served With Green Chutney And Salad",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Cheese Ball",
+    "description": "Permision Cheese And Mozzarella Cheese, Chilli Flakes, Organon, Bread Crums,",
+    "price": 399.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Paneer Chilli Dry / Gravy",
+    "description": "Triangular Cutting Of Paneer, Bell Pepper, Spring Onion With Added Chinese Spices And Topped With Spring Onion",
+    "price": 399.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Veg. Manchurian Dry / Gravy",
+    "description": "Deep Fried Chopped Indian Vegetable With Chinese Spices And Tossed Garnished With Spring Onion And Coriander",
+    "price": 360.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Veg. Spring Roll",
+    "description": "Deep Fried Julienne Vegetables With Indian And Chinese Spices Wrapped In Thin Pancake",
+    "price": 340.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Oriental Crispy Veg",
+    "description": "Chopped Indian And English Vegetable Batter Fried And Toassed With Chinese Sauce And Spices",
+    "price": 329.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Paneer Manchurian",
+    "description": "Cube Cutting Of Paneer, Deep Fried Chopped Indian Vegetable With Chinese Spices And Tossed Garnished With",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Chinese Bhel",
+    "description": "Rice And Crispy Noodles, Manchurian, Bell Papper With Chinese Sauces And Spices",
+    "price": 299.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Baby Corn Chilli Dry",
+    "description": "Triangular Cutting Of Baby Corn, Bell Pepper, Spring Onion With Added Chinese Spices And Topped With Spring",
+    "price": 360.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Paneer Schzwan",
+    "description": "Cube Cutting Of Paneer, Deep Fried Chopped Indian Vegetable With Schzwan Sauce And Tossed Garnished With",
+    "price": 380.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Veg. Lolipop",
+    "description": "8 Pcs Lolipop With Schzwan Sauce, Bell Papper, And Chinese Spices And Topped With Spring Onion",
+    "price": 340.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Paneer Signature Roll",
+    "description": "Cubes Of Cottage Cheese With Italian Seasoning, Grated Cheese, Wrapped With Bread Sheet And Served With Salsa Curry",
+    "price": 410.0,
+    "category": "STARTERS",
+    "file": "a708b5e780ef4bcbbb01561730a0f88b.jpg"
+  },
+  {
+    "name": "Frozen Berry Daiquiri",
+    "description": "Blue-berry, Cranberry & Strawberry...served Frozen",
+    "price": 240.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Kiwi Mint Mojito",
+    "description": "Fresh Kiwi Chopped With Lemon, Ithlemon, Mint, Mojito Syrup, Ice And Topped With Sprite",
+    "price": 220.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Moscow Mule 0.0",
+    "description": "Ginger Beer, Lime Juice Cordial, A Dash Of Soda",
+    "price": 250.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Fresh Watermelon Mojito",
+    "description": "Fresh Watermelon Chopped With Lemon, Mint syrup, Ice Topped With Sprite",
+    "price": 220.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "New-zeal",
+    "description": "Slow-pressed Fresh Kiwi, Green-Apple & Fresh Mint",
+    "price": 260.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Pomegranate Mojito",
+    "description": "Fresh Chopped Pomegranate With Lemon, Mint, Mijoto Syrup Along With Crushed Ice And Topped With Sprite",
+    "price": 225.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Orange Zinge",
+    "description": "Slow-pressed Fresh Orange& Green Apple Juice Cocktail With A Dash Ginger Zing",
+    "price": 240.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Fresh Mint Mijoto",
+    "description": "Fresh Mint Chopped With Lemon, Mint Syruo, Mojito Garnished With Lemon Slice",
+    "price": 215.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Time Travel",
+    "description": "Slow-pressed Fresh Pomegranate, Pineapple Juice & Jalapenos",
+    "price": 220.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Strawberry Martini",
+    "description": "Fresh Strawberry Crush With Ice, Lemon, Soda, Strawberry Syrup, Black Salt, Topped With Sprite",
+    "price": 230.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Peach Martini",
+    "description": "Fresh Peach Crush With Ice, Lemon, Soda, Peach Syrup, Black Salt Gamished With Peach And Lemon Slice",
+    "price": 230.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Kiwi Martini",
+    "description": "Fresh Kiwi Chopped With Ice, Lemon, Mint, Kiwi Syrup, Black Salt Topped With Sprite",
+    "price": 230.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Fruit Punch",
+    "description": "AL Time Favourite Combinaton Of Mix Fruit Juice",
+    "price": 230.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Strawberry Punch",
+    "description": "A Blend Combination Of Strawberry, Sprite, Strawberry Crush, Ice Cream With Dash Of Lime",
+    "price": 220.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Green Goddess",
+    "description": "A Blend Combination Of Khus Syrup, Sprite With Dash Of Lime",
+    "price": 230.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Pina Coloda",
+    "description": "A Blend Combination Of Pineapple Juice, Sprite, Vanilla Ice Cream, Coconut Essence With Dash Of Lime",
+    "price": 230.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Mango Tango",
+    "description": "A Blend Of Chopped Mango, Ice Cream, Mint, Mango Tango Juice With Dash Of Lime",
+    "price": 230.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Blue Lagoon",
+    "description": "Combination Of Blue Curacao Syrup, Lemon Juice, Sugar, Lemonade Garnished With Lemon Slice",
+    "price": 200.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Pink Lady",
+    "description": "Combination Of Grenadine Syrup. Strawberry, Sugar. Orange, Milk Garnished With Lemon Slice",
+    "price": 215.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Cinderella",
+    "description": "Combination Of Lemon Julce, Orange Juice, Pineapple Juice, Grenadine Syrup Dash With Orange / lemon Slice",
+    "price": 220.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Russia With Love",
+    "description": "Combination Of Mango Ice Cream/juice,soft Drink, Chocolate Syrup & Garnished With Cheery",
+    "price": 250.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Fresh Lime Soda (sweet/salted",
+    "description": "Soft Drinks MRP",
+    "price": 130.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Lassi (Sweet/Salted",
+    "description": null,
+    "price": 160.0,
+    "category": "BEVERAGES",
+    "file": "ae1bac613906abb55f459e1fb91ab13f.jpg"
+  },
+  {
+    "name": "Signature Paneer (Makhani Gravy",
+    "description": "Two Layers Of Coin Cutting Cottage Cheese With Chopped Spinach,crushed American Corn, Cardmom, Grated Jaifal,",
+    "price": 470.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Bhurjee Lasangnia (Makhani Gravy",
+    "description": "Two Layer Of Cottage Sheet Stuffed With Paneer Bhurjee Dry Added Indian Spices And Baked, Topped With Rich",
+    "price": 465.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Barrel (Brown Gravy",
+    "description": "Stuff Paneer With Mawa, Cashew Nut, Cottage Cheese Added Spices Coated, Deep Fried And Cooked In Rich Brown",
+    "price": 450.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Rulate (Makhani Gravy",
+    "description": "Grated Cottage Cheese, Rich Mawa With Added Spices, Saffron Flavour Cooked In Rich Makhani Gravy, Garnished",
+    "price": 465.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Khurchan (Brown Gravy",
+    "description": "Finger Cut Of Cottage Cheese And Coloured Bell Papper, Basil Ajwain And Indian Spices Cooked In Rich Makhani",
+    "price": 450.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Burhani Dum Panee",
+    "description": "Square Cut Cottage Cheese Stuffed With Grated Cottage Cheese, Mava, Saffron, Added Indian Spices Deep Fried And",
+    "price": 470.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Tikka Masala",
+    "description": "Cottage Cheese Marinated In Indian Spices, Roasted And Cooked With Red Gravy And Garnished With Coriander",
+    "price": 465.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Butter Masala",
+    "description": "Square Cut Cottage Cheese, Added With Indian Spices, Butter And Cooked In Red Gravy",
+    "price": 470.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Tikka Lababda",
+    "description": "Finger Cut Roasted Cottage Cheese With Added Traditional Spices, Honey And Cooked In Red Gravy Garnished With",
+    "price": 465.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Handi",
+    "description": "Cubes Of Cottage Cheese With Added Spices And Dfice Cut Onion, Capsicum Anfd Cooked In Brown Gravy",
+    "price": 465.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Kadai Panee",
+    "description": "Cubes Of Cottage Cheese Onion, Capsicum, Red Chilli And Cooked In Red Gravy",
+    "price": 465.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Paneer Khada Masala",
+    "description": "Cubes Of Cottage Cheese Cooked In Brown Gravy With Added Khada Masala Prepared From Indian Traditional And",
+    "price": 470.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Cheese Butter Masala",
+    "description": "Cubes Of Cheese Cooked In Red Gravy With Added Spices, Butter And Topped With Cheese And Butter",
+    "price": 510.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Nargis Kofta",
+    "description": null,
+    "price": 450.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Cheese Angoori Kofta",
+    "description": null,
+    "price": 490.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Cheese Kofta",
+    "description": null,
+    "price": 490.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Malai Kofta",
+    "description": null,
+    "price": 490.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Khoya Kaju (sweet",
+    "description": null,
+    "price": 490.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Kaju Curry",
+    "description": null,
+    "price": 490.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Kaju Masala",
+    "description": null,
+    "price": 490.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Kaju Butter Masala",
+    "description": null,
+    "price": 480.0,
+    "category": "INDIAN_MAIN",
+    "file": "b1f33284ca427a99143ae7bc548c7133.jpg"
+  },
+  {
+    "name": "Naanza Lacristy Spice Max",
+    "description": "Jalapenos, Refd Paprika, Onions, Capsicum, Peri-peri Sauce & Hot Sauce, Cheese, Basil, Naanza Sauce",
+    "price": 410.0,
+    "category": "CONTINENTAL",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "4 Cheese Naanza",
+    "description": "Cheddar, Mozerella, Jack & Parmesan Cheese Laid Artistically Naanza, With Pizza Sauce, Basil Leavis",
+    "price": 450.0,
+    "category": "CONTINENTAL",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Tandoori Achari Paneer Naanza",
+    "description": "Achari Paneer Tikka, Capsicum, Onion, Jalapneo",
+    "price": 450.0,
+    "category": "CONTINENTAL",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Cheese Stuffed Mushrooms Naanza",
+    "description": "Cheese Stufffefd Mushroom Tikkas, Tomatoes, capsicum, Onions, Cheese, Naanza Sauce, Cheese",
+    "price": 465.0,
+    "category": "CONTINENTAL",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Paneer Lababdar Naanza",
+    "description": "Creamy Paneer Lababdar, Lachha Pyaz, Capsicum On Your Soft And Fluffy Naanza With Cheese And Naanza Sauce",
+    "price": 440.0,
+    "category": "CONTINENTAL",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Special Sizzlers",
+    "description": "Born Garlic Rice, Sote Eng. Veg. , French Fry, Veg. with Brown Sauce Served with Process Cheese Spring Onion",
+    "price": 699.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Ukrainian Grilled Sizzlers",
+    "description": "Stuff Tomato, Stuff Capsicum, Cuttless, Stir Sote Veg., French Fries, Kirwell Sauce Mecroni, Garniced with Greteed",
+    "price": 550.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "China Town Sizzlers",
+    "description": "Veg. Fried Rice, Noodles Vonton, Semi Paneer Chilly Gravy, Manchurian Dry, French Fry, Garnished with Cheese",
+    "price": 550.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Ola Mixicano Sizzlers",
+    "description": "Mexican Rice, Mexican Paneer, Mexican Veg., Souree Sote Veg. with French Fry, Kirwell Souree Mecroni, Garniced",
+    "price": 599.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Paneer Shashilk Sizzlers",
+    "description": "Butter Bell Pepper Rice, Sote Veg., Sote Eng. Veg. French Fry, Paneer with Mouster Sauce, Garnished with Greteed",
+    "price": 599.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Paneer Stick Sizzlers",
+    "description": "Stuff Capsicum, Stuff Tomato, Hubs Rice, Paneer Stick with Wrooster Sauce, Sote Eng. Veg. French Fries & Greteed",
+    "price": 599.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Veg. Tandoori Sizzlers",
+    "description": "Sote Eng. Veg., Lal Mirch Paneer Tikka, Bharvan Aloo, Kunbh Najakat, Chilly Milli Steak Kabab, Selento Paneer Tikka,",
+    "price": 629.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Continental Sizzlers",
+    "description": "Spaghetti Agelio, Sote Eng. Veg., Green Mama Spicy Sauce, French Fry, Garnished with Cheese Spring Onion &",
+    "price": 629.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Thai Sizzlers",
+    "description": "Green Thai Noodles, Green Thai Curry, French Fries, Red Thai Fried Rice, Eng. Sote Veg., Garlic Bread, bruschetta,",
+    "price": 629.0,
+    "category": "SPECIALS",
+    "file": "b7addf03820778596974d16bd6b6e682.jpg"
+  },
+  {
+    "name": "Signature Vegetable",
+    "description": "Exotic Indian / English Vegetables Sauteed In Pan With Indian Spices Cooked In Rich Brown Gravy",
+    "price": 425.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Nizami Handi",
+    "description": "Exotic Indian Vegetables With Chopped Spinach, American Corn In Spinach Gravy With Indian Spices",
+    "price": 415.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Aneri-ganeri",
+    "description": "Combination Of Fresh Methi, Palak, Green Peas, American Corn, Cooked In Spinach Gravy With Indian Spices",
+    "price": 415.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Diwani Handi",
+    "description": "Exotic Indian Vegetables With Baby Corn, Mushroom, Diced Cutting Of Tomato Cooked In Spinach Gravy With",
+    "price": 435.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Vegetable Afghani",
+    "description": "Diced Cut Mushroom, Vegetables, Capsicum, Onions And Baby Corn Cooked In Brown And Cashew Nuts Gravy",
+    "price": 415.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Makhanwala",
+    "description": "Executive Indian Vegetable Cooked In Red Gravy With Added Spices",
+    "price": 410.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Kadai",
+    "description": "Dice Cut Executive Indian Vegetable, Onion, Capsicum Cooked In Red Gravy With Added Kadhai Masala",
+    "price": 415.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Khada Masala",
+    "description": "Executive Indian Vegetables Cooked In Brown Gravy With Added Khada Masala Prepared From Indian Traditional",
+    "price": 425.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Jaipuri",
+    "description": "Jullienne\u2019s Of Executive Vegetables, Onion, Capsicum Cooked In Brown Gravy",
+    "price": 410.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Kolhapuri",
+    "description": "Dice Cut Capsicum, Onion Mix Vegetables Cooked In Red Gravy And Garnished With Coriander * lA",
+    "price": 415.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Hydrabadi",
+    "description": "Cube Cut Executive Vegetable Cooked In Spinach Gravy With Added Spices And Touch Of Mint And Coriander r (2 7,",
+    "price": 410.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Navratan Korma (sweet",
+    "description": "\u20acxecutive Vegetables And Fruits Cooked In White Gravy With Added Sugar And Lavonoids. \"ey",
+    "price": 430.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Yellow Dal Fry",
+    "description": null,
+    "price": 310.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Yellow Dal Tadka",
+    "description": null,
+    "price": 325.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Dal Makhani / Dal Pahadi",
+    "description": null,
+    "price": 365.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Dal Panchrangi",
+    "description": null,
+    "price": 365.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Steamed Rice",
+    "description": null,
+    "price": 230.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Jeera Rice",
+    "description": null,
+    "price": 245.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Pulao",
+    "description": null,
+    "price": 250.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Kashmiri Pulao",
+    "description": null,
+    "price": 270.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Biryani",
+    "description": null,
+    "price": 390.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Dum Biryani",
+    "description": null,
+    "price": 410.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Veg. Hydrabadi Biryani",
+    "description": null,
+    "price": 425.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Kesari Biryani",
+    "description": null,
+    "price": 450.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Kaju Pulao",
+    "description": null,
+    "price": 325.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Parda Dum Biryani",
+    "description": null,
+    "price": 465.0,
+    "category": "INDIAN_MAIN",
+    "file": "c46ac7e450e406a938cd4341e1e6e033.jpg"
+  },
+  {
+    "name": "Por Pia Che",
+    "description": "(6 Pcs) Rolls Stuffed With Glass Noodles, Chinese Cabbage & Colored Peppers. Served With Sriracha Sauce",
+    "price": 450.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Tokyo Style Oyster Cream Potatoes",
+    "description": "(6 Pcs) Baby Potatoes Seasoned In Japanese Spices Finished With Light Wasabi Cream",
+    "price": 450.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Devil Chilli Broccoli",
+    "description": "(8 Pcs) For The Spice Lovers... Broccoli & Bell Pappers Tossed With Hot Sambal Sauce",
+    "price": 480.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Tokyo Tempora",
+    "description": null,
+    "price": 510.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Dimsum - Curry Sause",
+    "description": "(6 Pcs) Dimsum Of Asparagus Spinach With Curry Sauce",
+    "price": 465.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Cottage Cheese Chilli Bao",
+    "description": "(4 Pcs) Indo-asian Style Cottage Cheese Chillies Stuffed In Fluffy Bao",
+    "price": 425.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Burnt Chilli Water Chest Nuts",
+    "description": "(6 Pcs) Dimsums Of Water Chest Nut Tossed In Celery & Butter Garlic",
+    "price": 450.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Chi Chow Veggie",
+    "description": "(6 Pcs) Fresh Pan Asian Veggie Dimsums",
+    "price": 450.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Pin-pan of Dimsums",
+    "description": "(9 Pcs) Assortment Of Dimsums-burnt Chilli Water Chest Nuts, Chi-chow Veggie, Dimfsum-curry Sauce",
+    "price": 510.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Yashi Tempura",
+    "description": "(6 Pcs) Carrots, Green And Yellow Zucchini & Asparagus",
+    "price": 470.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Fantastic Shrooms",
+    "description": "(6 Pcs) Exotic Enoki Mushroom Sushi",
+    "price": 465.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Avocado & Spicy Carrot Rolls",
+    "description": "(6 Pcs) Specially For The Avocado Lovers",
+    "price": 450.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Sushi Mariawase",
+    "description": "(9 Pcs) Blissful Sushi Boat With Assortment Of All The Sushi In The House",
+    "price": 499.0,
+    "category": "STARTERS",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Sun Dried Tomato Risotto",
+    "description": "Arborio Rfifce Flavourefd With A Smoothy Creamy Cheese Sauce Sauteed With Onion, Garlic, Leek, Celery, And Sun",
+    "price": 450.0,
+    "category": "CONTINENTAL",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Four Cheese Risotto",
+    "description": "Cream And Cheese Added Arborio Rice Cooked With Italian Seasoning With Four Cheese Garnished With Parsley",
+    "price": 450.0,
+    "category": "CONTINENTAL",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Pesto Risotto",
+    "description": "Arborio Frice Flavoufred With A Smooth Creamy Sheese Sause With Onion, Garlic, Leek, Celery, And Sun-dried",
+    "price": 450.0,
+    "category": "CONTINENTAL",
+    "file": "c53881c440ce0f1fa999b0171c1826a4.jpg"
+  },
+  {
+    "name": "Selection of Tomato Soup",
+    "description": null,
+    "price": 220.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Roasted Tomato Bell Peppe",
+    "description": "Coloured Bell Pepper, Tomato Roasted And Chopped With Black-green Olives, Chilli, Basil, Chilli Flakes And Oregano",
+    "price": 235.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Cheese Corn Tomato Soup",
+    "description": null,
+    "price": 250.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Veg. Sweet Corn Soup",
+    "description": "Sweet Corn Cream Creamy Cooked With Water, White Paper, Aromimatic Powder & Topped Cream",
+    "price": 220.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Mexican Tortilla Soup",
+    "description": "A Coloured Bell Paper Chopped With Two Types Of Beans With Spring Onion And Mexican Spices Gamished With",
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Mexican Chilli Beans Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Jalapeno Cheese Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Broccoli Cheddar Cheese Soup",
+    "description": null,
+    "price": 260.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Thai Coconut Soup",
+    "description": null,
+    "price": 280.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Lemon Coriander Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "French Onion Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Tom Yum Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Potato Leek Soup",
+    "description": null,
+    "price": 220.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Asian Green Soup",
+    "description": null,
+    "price": 240.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Creamy Cilantro Soup",
+    "description": null,
+    "price": 240.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Broccoli Almond Soup",
+    "description": null,
+    "price": 250.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Shangtan Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Veg. Manchow Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Veg. Hot & Sour Soup",
+    "description": null,
+    "price": 230.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Eight Treasure Soup",
+    "description": "Chopped Celery, Broccoli, Carrots, Noodles, Tofu, Onions, Spring Onions, Almond Slivers In Soy-veggie Broth",
+    "price": 280.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  },
+  {
+    "name": "Nanjing Dumpling Soup",
+    "description": null,
+    "price": 280.0,
+    "category": "SOUP",
+    "file": "d28eb2571d01efcdad6bef7b71f40f52.jpg"
+  }
+]

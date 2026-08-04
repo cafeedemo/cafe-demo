@@ -19,11 +19,20 @@ model User {
 }
 
 enum MenuCategory {
+  SOUP
+  STARTERS
+  CONTINENTAL
+  CHINESE
+  INDIAN_MAIN
+  BREADS_RICE
+  BEVERAGES
+  SALADS
+  DESSERTS
+  SPECIALS
   COFFEE
   TEA
   PASTRY
   FOOD
-  SPECIALS
 }
 
 model MenuItem {
@@ -111,10 +120,11 @@ enum ReservationStatus {
 }
 
 model Reservation {
-  id            String            @id @default(cuid())
-  tableId       String
-  table         Table             @relation(fields: [tableId], references: [id], onDelete: Cascade)
-  customerName  String
+  id           String @id @default(cuid())
+  tableId      String
+  table        Table  @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  customerName String
+  /// Mandatory for reservations — it's how the restaurant reaches the guest.
   customerPhone String
   partySize     Int
   // The window the table is held for. endAt = startAt + settings.reservationHoldMinutes
@@ -122,6 +132,12 @@ model Reservation {
   endAt         DateTime
   status        ReservationStatus @default(RESERVED)
   createdAt     DateTime          @default(now())
+
+  /// Optional advance/deposit taken at booking time when the admin enables it.
+  advanceAmount        Decimal?      @db.Decimal(10, 2)
+  advancePaymentStatus PaymentStatus @default(PENDING)
+  razorpayOrderId      String?
+  razorpayPaymentId    String?
 
   session DiningSession?
 
@@ -154,13 +170,18 @@ enum OrderChannel {
 /// A dining session is one visit at one table. It groups every order placed
 /// during that visit so the bill is the sum of them all.
 model DiningSession {
-  id            String        @id @default(cuid())
-  tableId       String
-  table         Table         @relation(fields: [tableId], references: [id], onDelete: Cascade)
-  customerName  String
-  customerPhone String
-  isAnonymous   Boolean       @default(false)
-  reservationId String?       @unique
+  id           String @id @default(cuid())
+  tableId      String
+  table        Table  @relation(fields: [tableId], references: [id], onDelete: Cascade)
+  customerName String
+  /// Not collected when ordering at the table — only present when the visit came
+  /// from a reservation (which always has one).
+  customerPhone String?
+  /// Anonymous browser identity from a cookie. This is what powers "My Orders"
+  /// without asking anyone to sign up.
+  guestKey      String?
+  isAnonymous   Boolean @default(false)
+  reservationId String? @unique
   reservation   Reservation?  @relation(fields: [reservationId], references: [id])
   channel       OrderChannel  @default(MANUAL)
   status        SessionStatus @default(OPEN)
@@ -176,6 +197,7 @@ model DiningSession {
   orders Order[]
 
   @@index([customerPhone])
+  @@index([guestKey])
   @@index([tableId, status])
 }
 
@@ -239,6 +261,9 @@ model SiteContent {
   /// When false, customers get an auto-assigned table instead of the floor plan.
   showLayoutToCustomers  Boolean @default(true)
   paymentGatewayEnabled  Boolean @default(false)
+  /// Charge a deposit at booking time. Requires online payments to be on.
+  advanceBookingEnabled  Boolean @default(false)
+  advanceBookingAmount   Decimal @default(0) @db.Decimal(10, 2)
   /// Floor plan grid size.
   gridRows               Int     @default(5)
   gridCols               Int     @default(5)

@@ -6,16 +6,18 @@ import { Blobs } from "@/components/ui/Blobs";
 import { Reveal } from "@/components/ui/Reveal";
 import { OrderFlow } from "@/components/OrderFlow";
 import { prisma } from "@/lib/prisma";
+import { readGuest } from "@/lib/guest";
 
 export const dynamic = "force-dynamic";
 
 export default async function OrderPage() {
-  const [menuItems, tables] = await Promise.all([
+  const [menuItems, tables, guest] = await Promise.all([
     prisma.menuItem.findMany({
       where: { isAvailable: true },
       orderBy: [{ category: "asc" }, { sortOrder: "asc" }],
     }),
     prisma.table.findMany({ where: { isActive: true }, orderBy: { number: "asc" } }),
+    readGuest(),
   ]);
 
   return (
@@ -41,6 +43,7 @@ export default async function OrderPage() {
             <OrderFlow
               menuItems={menuItems.map((m) => ({ ...m, price: m.price.toString() }))}
               tables={tables.map((t) => ({ id: t.id, number: t.number, seats: t.seats }))}
+              knownName={guest?.name}
             />
           </div>
 

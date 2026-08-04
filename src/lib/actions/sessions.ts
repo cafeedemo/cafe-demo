@@ -4,7 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/guard";
-import { generateAnonymousPhone } from "@/lib/booking-slots";
+import { readGuest, rememberGuest } from "@/lib/guest";
 
 function revalidateAll() {
   revalidatePath("/admin/floor");
@@ -17,48 +17,61 @@ function revalidateAll() {
 const StartSessionSchema = z.object({
   tableId: z.string().min(1, "Pick a table"),
   customerName: z.string().min(2, "Please enter your name"),
-  customerPhone: z.string().optional(),
   channel: z.enum(["QR", "MANUAL", "WAITER"]).default("MANUAL"),
 });
 
 /**
- * Open a dining session, or reuse the one already open at that table.
+ * Open a dining session, or join the one already open at that table.
+ *
+ * Ordering asks for a name only — no phone, no sign-up. Choosing a table (by
+ * scanning its QR or picking the number) *is* the sign-in: we mint a cookie so
+ * the guest is remembered on their next order and under My Orders.
  *
  * Case 1 — walk-in: no reservation exists, we just open a session.
  * Case 2 — reserved: a RESERVED booking for this table is picked up and marked
- *          SEATED so the floor view and the bill stay linked to it.
+ *          SEATED, and its phone number carries onto the session.
  */
 export async function startOrJoinSession(input: {
   tableId: string;
   customerName: string;
-  customerPhone?: string;
   channel?: "QR" | "MANUAL" | "WAITER";
 }) {
   const parsed = StartSessionSchema.parse(input);
 
-  const existing = await prisma.diningSession.findFirst({
-    where: { tableId: parsed.tableId, status: "OPEN" },
-  });
-  if (existing) return existing.id;
+  const guestKey = await rememberGuest(parsed.customerName);
 
-  const now = new Date();
+  // Someone already has this table open — join their tab rather than starting a
+  // second one, and claim it for this browser so they can see the bill.
+  const existing = await prisma.diningSession.findFirst({
+    where: { tableId: parsed.tableId, status: { in: ["OPEN", "BILLED"] } },
+  });
+  if (existing) {
+    if (!existing.guestKey) {
+      await prisma.diningSession.update({
+        where: { id: existing.id },
+        data: { guestKey },
+      });
+    }
+    return existing.id;
+  }
+
   const reservation = await prisma.reservation.findFirst({
     where: {
       tableId: parsed.tableId,
       status: "RESERVED",
-      endAt: { gt: now },
+      endAt: { gt: new Date() },
     },
     orderBy: { startAt: "asc" },
   });
-
-  const phone = parsed.customerPhone?.trim() || generateAnonymousPhone();
 
   const session = await prisma.diningSession.create({
     data: {
       tableId: parsed.tableId,
       customerName: parsed.customerName,
-      customerPhone: phone,
-      isAnonymous: !parsed.customerPhone?.trim(),
+      // Only a reservation supplies a phone number; walk-ins have none.
+      customerPhone: reservation?.customerPhone ?? null,
+      guestKey,
+      isAnonymous: !reservation,
       channel: parsed.channel,
       reservationId: reservation?.id,
     },
@@ -208,10 +221,14 @@ export async function sessionTotal(sessionId: string) {
   );
 }
 
-/** Order history for a customer, keyed on their mobile number. */
-export async function lookupSessionsByPhone(phone: string) {
+type SessionWhere =
+  | { guestKey: string }
+  | { customerPhone: string }
+  | { OR: ({ guestKey: string } | { customerPhone: string })[] };
+
+async function findSessions(where: SessionWhere) {
   const sessions = await prisma.diningSession.findMany({
-    where: { customerPhone: phone.trim() },
+    where,
     include: {
       table: true,
       orders: { include: { items: true }, orderBy: { createdAt: "asc" } },
@@ -241,4 +258,38 @@ export async function lookupSessionsByPhone(phone: string) {
       })),
     })),
   }));
+}
+
+export type GuestSession = Awaited<ReturnType<typeof findSessions>>[number];
+
+/**
+ * "My Orders" with nothing to fill in: we match on the browser's guest cookie,
+ * and also on the phone from any reservation they made, so a booking placed on
+ * one device still shows up alongside the orders they placed at the table.
+ */
+export async function getMySessions(): Promise<GuestSession[]> {
+  const guest = await readGuest();
+  if (!guest) return [];
+
+  const reservations = await prisma.diningSession.findMany({
+    where: { guestKey: guest.guestKey, customerPhone: { not: null } },
+    select: { customerPhone: true },
+    distinct: ["customerPhone"],
+  });
+
+  const phones = reservations
+    .map((r) => r.customerPhone)
+    .filter((p): p is string => Boolean(p));
+
+  if (phones.length === 0) return findSessions({ guestKey: guest.guestKey });
+
+  return findSessions({
+    OR: [{ guestKey: guest.guestKey }, ...phones.map((p) => ({ customerPhone: p }))],
+  });
+}
+
+/** Fallback lookup for guests who booked on another device. */
+export async function lookupSessionsByPhone(phone: string): Promise<GuestSession[]> {
+  if (!phone.trim()) return [];
+  return findSessions({ customerPhone: phone.trim() });
 }

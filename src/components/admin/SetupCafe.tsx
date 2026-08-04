@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { clsx } from "clsx";
 import { Check, Palette, LayoutGrid, SlidersHorizontal, QrCode } from "lucide-react";
-import { updateBranding, updateRules, toggleFeature } from "@/lib/actions/settings";
+import {
+  updateBranding,
+  updateRules,
+  toggleFeature,
+  updateAdvanceAmount,
+} from "@/lib/actions/settings";
 import { MediaPicker } from "./MediaPicker";
 import { TableLayoutBuilder } from "./TableLayoutBuilder";
 
@@ -28,6 +33,8 @@ type Settings = {
   gridCols: number;
   showLayoutToCustomers: boolean;
   paymentGatewayEnabled: boolean;
+  advanceBookingEnabled: boolean;
+  advanceBookingAmount: number;
 };
 
 type TableDto = {
@@ -157,6 +164,9 @@ function RulesTab({ settings }: { settings: Settings }) {
   const [saved, setSaved] = useState(false);
   const [showLayout, setShowLayout] = useState(settings.showLayoutToCustomers);
   const [gateway, setGateway] = useState(settings.paymentGatewayEnabled);
+  const [advance, setAdvance] = useState(settings.advanceBookingEnabled);
+  const [amount, setAmount] = useState(settings.advanceBookingAmount);
+  const [amountSaved, setAmountSaved] = useState(false);
 
   return (
     <div className="flex max-w-2xl flex-col gap-6">
@@ -234,6 +244,73 @@ function RulesTab({ settings }: { settings: Settings }) {
           await toggleFeature("paymentGatewayEnabled", next);
         }}
       />
+
+      <div className="glass-card flex flex-col gap-4 rounded-2xl p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="font-heading font-bold">Advance payment on bookings</p>
+            <p className="mt-1 text-sm text-ink-dim">
+              Take a deposit before a table is held. Needs online payments to be on. The
+              table isn&apos;t reserved until the payment succeeds.
+            </p>
+          </div>
+          <button
+            onClick={async () => {
+              const next = !advance;
+              setAdvance(next);
+              await toggleFeature("advanceBookingEnabled", next);
+            }}
+            disabled={!gateway}
+            className={clsx(
+              "relative mt-1 h-7 w-12 shrink-0 rounded-full transition-colors disabled:opacity-40",
+              advance && gateway ? "bg-pink" : "bg-black/15",
+            )}
+            aria-pressed={advance}
+          >
+            <span
+              className={clsx(
+                "absolute top-1 h-5 w-5 rounded-full bg-white transition-transform",
+                advance && gateway ? "translate-x-6" : "translate-x-1",
+              )}
+            />
+          </button>
+        </div>
+
+        {!gateway && (
+          <p className="rounded-xl bg-orange/10 px-4 py-2.5 text-xs text-orange">
+            Turn on online payments first — a deposit can&apos;t be collected without it.
+          </p>
+        )}
+
+        <div className="flex items-end gap-3">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-medium text-ink-dim" htmlFor="advanceAmount">
+              Deposit amount (₹)
+            </label>
+            <input
+              id="advanceAmount"
+              type="number"
+              min={0}
+              max={100000}
+              step="10"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              className="w-40 rounded-xl border border-black/10 bg-black/[0.03] px-4 py-3 text-sm focus:border-pink focus:outline-none"
+            />
+          </div>
+          <button
+            onClick={async () => {
+              await updateAdvanceAmount(amount);
+              setAmountSaved(true);
+              setTimeout(() => setAmountSaved(false), 2000);
+            }}
+            className="gradient-btn flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold"
+          >
+            {amountSaved && <Check size={14} />}
+            {amountSaved ? "Saved" : "Save amount"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

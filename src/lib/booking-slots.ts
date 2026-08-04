@@ -52,11 +52,10 @@ export function toDateISO(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
-/** Anonymous customers still need a stable key; they just don't get rewards. */
-export function generateAnonymousPhone(): string {
-  return `ANON-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-}
-
-export function isAnonymousPhone(phone: string): boolean {
-  return phone.startsWith("ANON-");
+/**
+ * Reservations now always carry a real mobile number. This only exists so rows
+ * created before that rule don't display their placeholder key to staff.
+ */
+export function isAnonymousPhone(phone: string | null): boolean {
+  return !phone || phone.startsWith("ANON-");
 }

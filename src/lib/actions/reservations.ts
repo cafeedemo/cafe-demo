@@ -1,15 +1,13 @@
 "use server";
 
+import crypto from "crypto";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/guard";
-import {
-  buildSlots,
-  overlaps,
-  slotEnd,
-  generateAnonymousPhone,
-} from "@/lib/booking-slots";
+import { getRazorpay, isRazorpayConfigured } from "@/lib/razorpay";
+import { buildSlots, overlaps, slotEnd } from "@/lib/booking-slots";
 
 function revalidateReservationPaths() {
   revalidatePath("/book");
@@ -97,18 +95,27 @@ export async function getAvailability(dateISO: string, partySize = 1) {
       showLayoutToCustomers: settings.showLayoutToCustomers,
       reservationHoldMinutes: settings.reservationHoldMinutes,
       bookingLeadMinutes: settings.bookingLeadMinutes,
+      advanceRequired: requiresAdvance(settings),
+      advanceAmount: Number(settings.advanceBookingAmount),
     },
   };
 }
 
 const ReservationSchema = z.object({
   customerName: z.string().min(2, "Please enter your name"),
-  customerPhone: z.string().optional(),
+  // Mandatory for reservations — the restaurant needs a way to reach the guest.
+  customerPhone: z
+    .string()
+    .trim()
+    .min(7, "A mobile number is required to reserve a table")
+    .max(20, "That mobile number looks too long"),
   partySize: z.coerce.number().int().min(1).max(30),
   startISO: z.string().min(1, "Pick a time"),
   // Optional: when the floor plan is hidden, the server picks the table.
   tableId: z.string().optional(),
 });
+
+type ReservationRequest = z.infer<typeof ReservationSchema>;
 
 export type ReservationState = {
   success?: boolean;
@@ -117,24 +124,13 @@ export type ReservationState = {
   startLabel?: string;
 };
 
-export async function createReservation(
-  _prev: ReservationState,
-  formData: FormData,
-): Promise<ReservationState> {
-  const parsed = ReservationSchema.safeParse({
-    customerName: formData.get("customerName"),
-    customerPhone: formData.get("customerPhone") || undefined,
-    partySize: formData.get("partySize"),
-    startISO: formData.get("startISO"),
-    tableId: formData.get("tableId") || undefined,
-  });
-
-  if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "Invalid form" };
-  }
-
+/**
+ * Validate a booking request and find a concrete free table for it.
+ * Shared by the direct path and the pay-a-deposit-first path.
+ */
+async function resolveBooking(req: ReservationRequest) {
   const settings = await getSettings();
-  const startAt = new Date(parsed.data.startISO);
+  const startAt = new Date(req.startISO);
   const endAt = slotEnd(startAt, settings.reservationHoldMinutes);
 
   // Enforce the lead-time rule server-side too, not just in the UI.
@@ -142,20 +138,20 @@ export async function createReservation(
   if (startAt < earliest) {
     return {
       error: `Bookings need at least ${settings.bookingLeadMinutes} minutes' notice. Please pick a later slot.`,
-    };
+    } as const;
   }
 
   const candidates = await prisma.table.findMany({
     where: {
       isActive: true,
-      seats: { gte: parsed.data.partySize },
-      ...(parsed.data.tableId ? { id: parsed.data.tableId } : {}),
+      seats: { gte: req.partySize },
+      ...(req.tableId ? { id: req.tableId } : {}),
     },
     orderBy: [{ seats: "asc" }, { number: "asc" }],
   });
 
   if (candidates.length === 0) {
-    return { error: "No table of that size is available. Try a smaller party." };
+    return { error: "No table of that size is available. Try a smaller party." } as const;
   }
 
   const clashing = await prisma.reservation.findMany({
@@ -170,35 +166,157 @@ export async function createReservation(
   const free = candidates.find((t) => !clashing.some((r) => r.tableId === t.id));
   if (!free) {
     return {
-      error: parsed.data.tableId
+      error: req.tableId
         ? "That table was just taken for this slot — please pick another."
         : "All tables are booked for that time. Try a different slot.",
-    };
+    } as const;
   }
 
-  const phone = parsed.data.customerPhone?.trim() || generateAnonymousPhone();
+  return { table: free, startAt, endAt, settings } as const;
+}
 
-  await prisma.reservation.create({
-    data: {
-      tableId: free.id,
-      customerName: parsed.data.customerName,
-      customerPhone: phone,
-      partySize: parsed.data.partySize,
-      startAt,
-      endAt,
-    },
-  });
-
-  revalidateReservationPaths();
-
+function bookedResult(tableNumber: number, startAt: Date): ReservationState {
   return {
     success: true,
-    tableNumber: free.number,
+    tableNumber,
     startLabel: startAt.toLocaleString("en-IN", {
       dateStyle: "medium",
       timeStyle: "short",
     }),
   };
+}
+
+export async function createReservation(
+  _prev: ReservationState,
+  formData: FormData,
+): Promise<ReservationState> {
+  const parsed = ReservationSchema.safeParse({
+    customerName: formData.get("customerName"),
+    customerPhone: formData.get("customerPhone"),
+    partySize: formData.get("partySize"),
+    startISO: formData.get("startISO"),
+    tableId: formData.get("tableId") || undefined,
+  });
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Invalid form" };
+  }
+
+  const resolved = await resolveBooking(parsed.data);
+  if ("error" in resolved) return { error: resolved.error };
+
+  // If a deposit is required, the reservation is only created after payment.
+  if (requiresAdvance(resolved.settings)) {
+    return {
+      error: "This booking needs an advance payment — please use the payment button.",
+    };
+  }
+
+  await prisma.reservation.create({
+    data: {
+      tableId: resolved.table.id,
+      customerName: parsed.data.customerName,
+      customerPhone: parsed.data.customerPhone,
+      partySize: parsed.data.partySize,
+      startAt: resolved.startAt,
+      endAt: resolved.endAt,
+    },
+  });
+
+  revalidateReservationPaths();
+  return bookedResult(resolved.table.number, resolved.startAt);
+}
+
+function requiresAdvance(settings: {
+  advanceBookingEnabled: boolean;
+  paymentGatewayEnabled: boolean;
+  advanceBookingAmount: Prisma.Decimal;
+}) {
+  return (
+    settings.advanceBookingEnabled &&
+    settings.paymentGatewayEnabled &&
+    isRazorpayConfigured() &&
+    Number(settings.advanceBookingAmount) > 0
+  );
+}
+
+/**
+ * Step 1 of a deposit booking: check the slot is genuinely free, then open a
+ * Razorpay order. Nothing is reserved yet, so an abandoned checkout never leaves
+ * a table blocked.
+ */
+export async function startAdvanceBooking(input: ReservationRequest) {
+  const parsed = ReservationSchema.parse(input);
+  const resolved = await resolveBooking(parsed);
+  if ("error" in resolved) throw new Error(resolved.error);
+
+  if (!requiresAdvance(resolved.settings)) {
+    throw new Error("Advance payment isn't enabled.");
+  }
+
+  const amount = Number(resolved.settings.advanceBookingAmount);
+  const order = await getRazorpay().orders.create({
+    amount: Math.round(amount * 100),
+    currency: "INR",
+    receipt: `adv-${Date.now()}`,
+  });
+
+  return {
+    orderId: order.id,
+    amount: order.amount,
+    currency: order.currency,
+    keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+    advanceAmount: amount,
+  };
+}
+
+/** Step 2: verify the signature, re-check availability, then hold the table. */
+export async function confirmAdvanceBooking(
+  input: ReservationRequest,
+  payment: { razorpayOrderId: string; razorpayPaymentId: string; razorpaySignature: string },
+): Promise<ReservationState> {
+  if (!process.env.RAZORPAY_KEY_SECRET) {
+    return { error: "Payments aren't configured — please call us to book." };
+  }
+
+  const expected = crypto
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    .update(`${payment.razorpayOrderId}|${payment.razorpayPaymentId}`)
+    .digest("hex");
+
+  if (expected !== payment.razorpaySignature) {
+    return { error: "We couldn't verify that payment. Please contact us." };
+  }
+
+  const parsed = ReservationSchema.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid form" };
+
+  const resolved = await resolveBooking(parsed.data);
+  if ("error" in resolved) {
+    // Payment went through but the slot vanished — surface it clearly so staff
+    // can refund rather than silently losing the booking.
+    return {
+      error: `${resolved.error} Your payment was received — please contact us for a refund or another slot.`,
+    };
+  }
+
+  await prisma.reservation.create({
+    data: {
+      tableId: resolved.table.id,
+      customerName: parsed.data.customerName,
+      customerPhone: parsed.data.customerPhone,
+      partySize: parsed.data.partySize,
+      startAt: resolved.startAt,
+      endAt: resolved.endAt,
+      advanceAmount: resolved.settings.advanceBookingAmount,
+      advancePaymentStatus: "PAID",
+      razorpayOrderId: payment.razorpayOrderId,
+      razorpayPaymentId: payment.razorpayPaymentId,
+    },
+  });
+
+  revalidateReservationPaths();
+  return bookedResult(resolved.table.number, resolved.startAt);
 }
 
 export async function seatReservation(id: string) {

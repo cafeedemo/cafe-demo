@@ -19,7 +19,22 @@ type MenuItemDto = {
 
 type MediaAssetDto = { id: string; url: string; category: string; label: string | null };
 
-const CATEGORIES = ["COFFEE", "TEA", "PASTRY", "FOOD", "SPECIALS"];
+const CATEGORIES = [
+  "SOUP",
+  "STARTERS",
+  "CONTINENTAL",
+  "CHINESE",
+  "INDIAN_MAIN",
+  "BREADS_RICE",
+  "BEVERAGES",
+  "SALADS",
+  "DESSERTS",
+  "SPECIALS",
+  "COFFEE",
+  "TEA",
+  "PASTRY",
+  "FOOD",
+];
 
 export function MenuManager({ items, mediaAssets }: { items: MenuItemDto[]; mediaAssets: MediaAssetDto[] }) {
   const [editing, setEditing] = useState<MenuItemDto | null>(null);
@@ -148,7 +163,7 @@ export function MenuManager({ items, mediaAssets }: { items: MenuItemDto[]; medi
               <tr key={item.id}>
                 <td className="px-6 py-3 font-medium">{item.name}</td>
                 <td className="px-6 py-3 text-ink-dim">{item.category}</td>
-                <td className="px-6 py-3 text-lime">${item.price}</td>
+                <td className="px-6 py-3 text-lime">₹{item.price}</td>
                 <td className="px-6 py-3">
                   <span
                     className={

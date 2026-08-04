@@ -36,6 +36,8 @@ export default async function SetupPage() {
           gridCols: settings.gridCols,
           showLayoutToCustomers: settings.showLayoutToCustomers,
           paymentGatewayEnabled: settings.paymentGatewayEnabled,
+          advanceBookingEnabled: settings.advanceBookingEnabled,
+          advanceBookingAmount: Number(settings.advanceBookingAmount),
         }}
         tables={tables.map((t) => ({
           id: t.id,

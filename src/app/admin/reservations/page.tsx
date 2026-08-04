@@ -32,6 +32,8 @@ export default async function AdminReservationsPage() {
           startAt: r.startAt.toISOString(),
           endAt: r.endAt.toISOString(),
           status: r.status,
+          advanceAmount: r.advanceAmount ? Number(r.advanceAmount) : null,
+          advancePaid: r.advancePaymentStatus === "PAID",
         }))}
       />
     </div>

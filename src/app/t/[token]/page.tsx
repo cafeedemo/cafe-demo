@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Blobs } from "@/components/ui/Blobs";
 import { OrderFlow } from "@/components/OrderFlow";
 import { prisma } from "@/lib/prisma";
+import { readGuest } from "@/lib/guest";
 
 export const dynamic = "force-dynamic";
 
@@ -18,12 +19,13 @@ export default async function ScanOrderPage({
   const table = await prisma.table.findUnique({ where: { qrToken: token } });
   if (!table || !table.isActive) notFound();
 
-  const [menuItems, content] = await Promise.all([
+  const [menuItems, content, guest] = await Promise.all([
     prisma.menuItem.findMany({
       where: { isAvailable: true },
       orderBy: [{ category: "asc" }, { sortOrder: "asc" }],
     }),
     prisma.siteContent.findUnique({ where: { id: "main" } }),
+    readGuest(),
   ]);
 
   return (
@@ -49,6 +51,7 @@ export default async function ScanOrderPage({
               menuItems={menuItems.map((m) => ({ ...m, price: m.price.toString() }))}
               tables={[{ id: table.id, number: table.number, seats: table.seats }]}
               scannedTable={{ id: table.id, number: table.number, seats: table.seats }}
+              knownName={guest?.name}
             />
           </div>
         </div>
